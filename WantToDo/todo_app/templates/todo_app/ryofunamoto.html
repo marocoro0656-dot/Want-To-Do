@@ -1,12 +1,12 @@
 
-
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DisneyFoodsNavi</title>
+    <title>WantToDo</title>
     <style>
         body {
             text-align: center;
@@ -88,10 +88,10 @@
     </div>
 
     <div class="links">
-        <a href="/static/pdfs/%E4%BC%81%E7%94%BB%E6%9B%B8.pdf" target="_blank">企画書</a>
-        <a href="/static/pdfs/%E7%94%BB%E9%9D%A2%E8%A8%AD%E8%A8%88%E5%9B%B3_v2.pdf" target="_blank">画面設計図</a>
-        <a href="/static/pdfs/%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3_v2.svg" target="_blank">画面遷移図</a>
-        <a href="/static/pdfs/ER%E5%9B%B3.svg" target="_blank">ER図</a>
+        <a href="{% static '企画書.pdf' %}" target="_blank" rel="noopener noreferrer">企画書</a>
+        <a href="{% static '画面設計図.pdf' %}" target="_blank" rel="noopener noreferrer">画面設計図</a>
+        <a href="{% static '画面遷移図.pdf' %}" target="_blank" rel="noopener noreferrer">画面遷移図</a>
+        <a href="{% static 'ER図.pdf' %}" target="_blank" rel="noopener noreferrer">ER図</a>
     </div>
 
     <a href="/home/" class="app-link">アプリにアクセス</a>
