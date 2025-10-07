@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
-def index(request):
-    return HttpResponse('<h1>Want To Doアプリについて</h1>')
+def ryofunamoto(request):
+    return render(
+        request, 'todo_app/ryofunamoto.html'
+    )
