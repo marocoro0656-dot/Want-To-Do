@@ -50,7 +50,6 @@ body.signup-page .signup-label{
 }
 
 /* ===== 入力 ===== */
-/* A) クラス指定（推奨） */
 body.signup-page .signup-input{
   width: clamp(260px, 46vw, 420px);
   height: 42px;
