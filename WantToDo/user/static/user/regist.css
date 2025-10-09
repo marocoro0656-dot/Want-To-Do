@@ -1,0 +1,99 @@
+@import url("base.css");
+
+body.signup-page{
+  --bg:#f5f6f7;
+  --card-border:#e5e7eb;
+  --text:#222;
+  --muted:#8b8f98;
+  --green:#38a24b;
+  --green-dark:#2f8b40;
+
+  margin:0;
+  padding:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Hiragino Kaku Gothic ProN","Meiryo","Segoe UI",system-ui,sans-serif;
+}
+
+/* ===== タイトル ===== */
+body.signup-page .signup-title{
+  text-align:center;
+  font-size: clamp(22px, 2.8vw, 34px);
+  font-weight: 800;
+  letter-spacing:.02em;
+  margin: 28px 0 18px;
+}
+
+/* ===== カード ===== */
+body.signup-page .signup-card{
+  max-width: 860px;
+  margin: 0 auto 32px;
+  background: #fff;
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 24px;
+}
+
+/* ===== フォーム行揃え ===== */
+body.signup-page .signup-form{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap: 18px;
+}
+
+/* ===== ラベル ===== */
+body.signup-page .signup-label{
+  font-weight: 700;
+  text-align:center;
+  margin: 6px 0 4px;
+}
+
+/* ===== 入力 ===== */
+/* A) クラス指定（推奨） */
+body.signup-page .signup-input{
+  width: clamp(260px, 46vw, 420px);
+  height: 42px;
+  padding: 8px 12px;
+  border: 1px solid #d7dbe2;
+  border-radius: 6px;
+  outline: none;
+  transition: box-shadow .15s, border-color .15s;
+  background:#fff;
+}
+body.signup-page .signup-input:focus{
+  border-color:#9bb3ff;
+  box-shadow: 0 0 0 3px rgba(130,160,255,.25);
+}
+
+
+
+/* 注意書き */
+body.signup-page .signup-help{
+  width: clamp(260px, 46vw, 420px);
+  margin-top: -6px;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: left;
+}
+
+/* 登録ボタン */
+body.signup-page .signup-submit{
+  width: clamp(260px, 46vw, 420px);
+  height: 44px;
+  border: none;
+  border-radius: 8px;
+  background: var(--green);
+  color:#fff;
+  font-weight: 700;
+  cursor:pointer;
+  transition: background .15s, transform .02s;
+}
+body.signup-page .signup-submit:hover{ background: var(--green-dark); }
+body.signup-page .signup-submit:active{ transform: translateY(1px); }
+
+/* スマホ微調整 */
+@media (max-width: 420px){
+  body.signup-page .signup-card{ padding:18px; }
+  body.signup-page .signup-form{ gap:14px; }
+}

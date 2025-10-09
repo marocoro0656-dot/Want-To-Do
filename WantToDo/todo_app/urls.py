@@ -5,4 +5,5 @@ app_name = 'todo_app'
 
 urlpatterns = [
     path('ryofunamoto/', views.ryofunamoto, name='ryofunamoto'),
+    
     ]

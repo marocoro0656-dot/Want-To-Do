@@ -1,0 +1,33 @@
+{% extends 'user/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'user/regist.css' %}">
+{% endblock %}
+
+{% block body_class %}signup-page{% endblock %}
+
+{% block content %}
+<h1 class="signup-title">新規登録</h1>
+
+<div class="signup-card">
+  <form class="signup-form" method="post" novalidate>
+    {% csrf_token %}
+
+    <label class="signup-label" for="nickname">ユーザー名</label>
+    <input class="signup-input" type="text" name="nickname" id="nickname" required>
+
+    <label class="signup-label" for="email">メールアドレス：</label>
+    <input class="signup-input" type="email" name="email" id="email" required>
+
+    <label class="signup-label" for="password1">パスワード：</label>
+    <input class="signup-input" type="password" name="password1" id="password1" required>
+    <div class="signup-help">※半角英数字を含む、8文字以上24文字以内<br>※記号( ! _ % @ # $ & )を1つ以上含めてください。</div>
+
+    <label class="signup-label" for="password2">パスワード再入力：</label>
+    <input class="signup-input" type="password" name="password2" id="password2" required>
+
+    <button type="submit" class="signup-submit">登録</button>
+  </form>
+</div>
+{% endblock %}
