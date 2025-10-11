@@ -1,0 +1,19 @@
+{% extends 'todo/base.html' %}
+{% block body_class %}done-page{% endblock %}
+{% block content %}
+  <h1 class="signup-title">完了済み一覧</h1>
+  <section class="signup-card">
+    {% if wants %}
+      <ul class="list-unstyled mb-0">
+        {% for w in wants %}
+          <li class="signup-form" style="align-items:flex-start">
+            <div class="fw-bold">{{ w.title }}</div>
+            <div class="signup-help">完了日時: {{ w.updated_at|default:"—" }}</div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="signup-help text-center">完了済みの項目はまだありません。</p>
+    {% endif %}
+  </section>
+{% endblock %}

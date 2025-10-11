@@ -1,31 +1,57 @@
+# user/forms.py
+import re
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+# パスワードのポリシー: 8-24 / 英字1+ / 数字1+ / 記号(!_%@#$&)1+
+PASSWORD_RE = re.compile(
+    r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[!_%@#$&])[A-Za-z\d!_%@#$&]{8,24}$'
+)
 
-class UserForm(forms.ModelForm):
-    
-    class Meta():
+def validate_password_policy(pw: str):
+    if not PASSWORD_RE.match(pw or ''):
+        raise ValidationError(
+            'パスワードは8〜24文字、英字・数字・記号(! _ % @ # $ &)を各1文字以上含めてください。'
+        )
+
+
+class SignUpForm(UserCreationForm):
+    """
+    新規登録: ユーザー名 + メール + パスワード（確認あり）
+    """
+    email = forms.EmailField(required=True, label='メールアドレス')
+
+    class Meta:
         model = User
-        fields = ('username', 'email', 'password')
-        widget = {
-            'password': forms.PasswordInput
-        }
-        
-class UserLoginForm(forms.Form):
-    username = forms.CharField(label='ユーザー名', max_length=255)
-    password1 = forms.CharField(
-        label='パスワード', max_length=50, widget=forms.PasswordInput
+        fields = ('username', 'email', 'password1', 'password2')
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise ValidationError('このメールアドレスは既に使用されています。')
+        return email
+
+    def clean_password2(self):
+        pw1 = self.cleaned_data.get('password1')
+        pw2 = self.cleaned_data.get('password2')
+
+        # UserCreationForm の標準「一致チェック」を自前で行う
+        if pw1 and pw2 and pw1 != pw2:
+            raise ValidationError('パスワードが一致しません。')
+
+        # 追加ポリシー
+        if pw2:
+            validate_password_policy(pw2)
+
+        return pw2
+
+class LoginForm(forms.Form):
+    """
+    ログイン: メール + パスワード
+    """
+    email = forms.EmailField(label='メールアドレス')
+    password = forms.CharField(
+        label='パスワード', widget=forms.PasswordInput
     )
-    password2 = forms.CharField(
-        label='パスワード再入力', max_length=50, widget=forms.PasswordInput
-    )
-    
-    def clean(self):
-        cleaned_date = super().clean()
-        password1 = cleaned_date.get('password1')
-        password2 = cleaned_date.get('password2')
-        if password1 != password2:
-            raise ValidationError('パスワードが一致しません')
-        return cleaned_date
-        

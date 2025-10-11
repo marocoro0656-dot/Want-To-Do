@@ -1,0 +1,32 @@
+/* ナビ全体（色・影） */
+.navbar.my-navbar{
+  background:#1b9aea !important;      /* Bootstrapを確実に上書き */
+  box-shadow:0 2px 4px rgba(0,0,0,.05);
+  border-bottom:2px solid #f0f0f0;
+}
+
+/* 左上ロゴ */
+.navbar.my-navbar .navbar-brand{
+  color:#fff !important;
+  font-weight:700;
+  letter-spacing:.03em;
+}
+.navbar.my-navbar .navbar-brand:hover{ color:#e6f4ff !important; }
+
+/* 右上のボタン系（必要に応じて） */
+.navbar.my-navbar .btn-outline-secondary,
+.navbar.my-navbar .btn-outline-danger{
+  color:#fff; border-color:#fff;
+}
+.navbar.my-navbar .btn-outline-secondary:hover{ background:rgba(255,255,255,.15); }
+.navbar.my-navbar .btn-outline-danger:hover{ background:rgba(255,0,0,.15); }
+
+/* ページ全体 */
+body{
+  margin:0;
+  font-family:'Segoe UI','Hiragino Kaku Gothic ProN','メイリオ',sans-serif;
+  background:#fffefc;
+  color:#333;
+}
+main{ padding:40px 20px; }
+@media (max-width:768px){ main{ padding:30px 15px; } }

@@ -1,33 +1,51 @@
+{# templates/user/registration.html #}
 {% extends 'user/base.html' %}
 {% load static %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'user/regist.css' %}">
-{% endblock %}
-
+{% block extra_css %}<link rel="stylesheet" href="{% static 'user/regist.css' %}">{% endblock %}
 {% block body_class %}signup-page{% endblock %}
 
 {% block content %}
 <h1 class="signup-title">新規登録</h1>
 
-<div class="signup-card">
-  <form class="signup-form" method="post" novalidate>
+<section class="signup-card">
+  {# 上部にフォーム全体のエラー（non_field_errors） #}
+  {% if user_form.non_field_errors %}
+    <div class="alert alert-danger">
+      {% for err in user_form.non_field_errors %}{{ err }}<br>{% endfor %}
+    </div>
+  {% endif %}
+
+  <form method="post" class="signup-form" novalidate>
     {% csrf_token %}
 
-    <label class="signup-label" for="nickname">ユーザー名</label>
-    <input class="signup-input" type="text" name="nickname" id="nickname" required>
+    <label class="signup-label" for="id_username">ユーザー名</label>
+    <input class="signup-input" type="text" id="id_username" name="username"
+           value="{{ user_form.username.value|default_if_none:'' }}" required>
+    {% for err in user_form.username.errors %}
+      <div class="signup-help" style="color:#d33">{{ err }}</div>
+    {% endfor %}
 
-    <label class="signup-label" for="email">メールアドレス：</label>
-    <input class="signup-input" type="email" name="email" id="email" required>
+    <label class="signup-label" for="id_email">メールアドレス</label>
+    <input class="signup-input" type="email" id="id_email" name="email"
+           value="{{ user_form.email.value|default_if_none:'' }}" required>
+    {% for err in user_form.email.errors %}
+      <div class="signup-help" style="color:#d33">{{ err }}</div>
+    {% endfor %}
 
-    <label class="signup-label" for="password1">パスワード：</label>
-    <input class="signup-input" type="password" name="password1" id="password1" required>
-    <div class="signup-help">※半角英数字を含む、8文字以上24文字以内<br>※記号( ! _ % @ # $ & )を1つ以上含めてください。</div>
+    <label class="signup-label" for="id_password1">パスワード</label>
+    <input class="signup-input" type="password" id="id_password1" name="password1" required>
+    <div class="signup-help">※半角英数字を含む8〜24文字、記号( ! _ % @ # $ & )を1つ以上</div>
+    {% for err in user_form.password1.errors %}
+      <div class="signup-help" style="color:#d33">{{ err }}</div>
+    {% endfor %}
 
-    <label class="signup-label" for="password2">パスワード再入力：</label>
-    <input class="signup-input" type="password" name="password2" id="password2" required>
+    <label class="signup-label" for="id_password2">パスワード再入力</label>
+    <input class="signup-input" type="password" id="id_password2" name="password2" required>
+    {% for err in user_form.password2.errors %}
+      <div class="signup-help" style="color:#d33">{{ err }}</div>
+    {% endfor %}
 
-    <button type="submit" class="signup-submit">登録</button>
+    <button class="signup-submit" type="submit">登録</button>
   </form>
-</div>
+</section>
 {% endblock %}

@@ -124,3 +124,13 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+# ログインしていない状態で @login_required ページにアクセスしたら、
+# ここで指定したURL（URL名でもOK）にリダイレクトする
+LOGIN_URL = 'user:login'
+
+# ログイン成功後、リダイレクトする先（URL名でもOK）
+LOGIN_REDIRECT_URL = 'home'   # 例: ホーム画面のURL名
+
+# ログアウト後に自動でリダイレクトする場合は次の設定も可能（推奨）
+LOGOUT_REDIRECT_URL = 'user:login'
