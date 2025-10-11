@@ -6,13 +6,15 @@ from django.contrib.auth import authenticate, login, logout
 from django import forms
 
 from django.contrib import messages
+from django.urls import reverse_lazy
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth.views import PasswordChangeView
 
-from .forms import SignUpForm, LoginForm
+from .forms import SignUpForm, LoginForm, CustomPasswordChangeForm
 
 
 
@@ -70,3 +72,12 @@ def email_change(request):
     else:
         form = EmailChangeForm(initial={'email': request.user.email})
     return render(request, 'user/email_change.html', {'form': form})
+
+#パスワード変更
+class MyPasswordChangeView(PasswordChangeView):
+    form_class = CustomPasswordChangeForm
+    template_name = 'user/password_change.html'
+    success_url = reverse_lazy('todo_app:home')  # ← 成功時はホームへ
+    def form_valid(self, form):
+        messages.success(self.request, 'パスワードを変更しました。')
+        return super().form_valid(form)

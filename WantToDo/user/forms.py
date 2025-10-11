@@ -1,11 +1,10 @@
-# user/forms.py
 import re
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,PasswordChangeForm 
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-# パスワードのポリシー: 8-24 / 英字1+ / 数字1+ / 記号(!_%@#$&)1+
+# パスワードポリシー: 8-24 / 英字1+ / 数字1+ / 記号(!_%@#$&)1+
 PASSWORD_RE = re.compile(
     r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[!_%@#$&])[A-Za-z\d!_%@#$&]{8,24}$'
 )
@@ -15,6 +14,28 @@ def validate_password_policy(pw: str):
         raise ValidationError(
             'パスワードは8〜24文字、英字・数字・記号(! _ % @ # $ &)を各1文字以上含めてください。'
         )
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # 全フィールドにクラスを付与
+        for f in self.fields.values():
+            f.widget.attrs.update({'class': 'signup-input'})
+    """パスワード変更でも独自ポリシーを適用"""
+    def clean(self):
+        """
+        親の clean() を呼ぶことで：
+        - 旧パスワードチェック
+        - new_password1 / new_password2 の一致チェック
+        - settings の AUTH_PASSWORD_VALIDATORS の適用
+        を実施。その上で“独自ポリシー”を追加チェック。
+        """
+        cleaned = super().clean()
+        pw2 = cleaned.get('new_password2')
+        if pw2:
+            validate_password_policy(pw2)
+        return cleaned
+
 
 
 class SignUpForm(UserCreationForm):
