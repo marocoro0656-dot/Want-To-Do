@@ -1,19 +1,29 @@
 {% extends 'todo/base.html' %}
 {% load static %}
-{% block extra_css %}<link rel="stylesheet" href="{% static 'todo/regist.css' %}">{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'todo/regist.css' %}">
+{% endblock %}
 {% block body_class %}signup-page{% endblock %}
 
 {% block content %}
   <h1 class="signup-title">メールアドレス変更</h1>
+
   <section class="signup-card">
     <form method="post" class="signup-form">
       {% csrf_token %}
-      <label class="signup-label" for="id_email">新しいメールアドレス</label>
-      <input class="signup-input" type="email" id="id_email" name="email"
-             value="{{ form.email.value|default:form.initial.email }}" required>
+
+      <!-- 現在のメールアドレス（読み取り専用） -->
+      <label class="signup-label">現在のメールアドレス</label>
+      <input class="signup-input" type="email" value="{{ request.user.email }}" readonly>
+
+      <!-- 新しいメールアドレス入力欄 -->
+      <label class="signup-label" for="id_email">新しいメールアドレス</label>{{ form.email }}
+      
+    
       {% for err in form.email.errors %}
         <div class="signup-help" style="color:#d33">{{ err }}</div>
       {% endfor %}
+
       <button class="signup-submit" type="submit">更新する</button>
     </form>
   </section>

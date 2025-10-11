@@ -59,6 +59,11 @@ def login_view(request):
     
 class EmailChangeForm(forms.Form):
     email = forms.EmailField(label='新しいメールアドレス')
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs.update({'class': 'signup-input'})
+
 
 @login_required
 def email_change(request):
@@ -68,9 +73,10 @@ def email_change(request):
             request.user.email = form.cleaned_data['email']
             request.user.save()
             messages.success(request, 'メールアドレスを更新しました。')
-            return redirect('user:email_change')
+            return redirect('todo_app:home')
     else:
-        form = EmailChangeForm(initial={'email': request.user.email})
+        form = EmailChangeForm()
+        
     return render(request, 'user/email_change.html', {'form': form})
 
 #パスワード変更

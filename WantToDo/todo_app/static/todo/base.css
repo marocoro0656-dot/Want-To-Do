@@ -13,6 +13,14 @@
 }
 .navbar.my-navbar .navbar-brand:hover{ color:#e6f4ff !important; }
 
+.navbar.my-navbar .navbar-brand {
+  font-size: 1.6rem;              /* 固定サイズ */
+  font-family:'Segoe UI','Hiragino Kaku Gothic ProN','メイリオ',sans-serif;
+  color:#fff !important;
+  font-weight:700;
+  letter-spacing:.03em;
+}
+
 /* 右上のボタン系（必要に応じて） */
 .navbar.my-navbar .btn-outline-secondary,
 .navbar.my-navbar .btn-outline-danger{
