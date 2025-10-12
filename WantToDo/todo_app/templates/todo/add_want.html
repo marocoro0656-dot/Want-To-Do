@@ -1,26 +1,45 @@
 {% extends 'todo/base.html' %}
 {% load static %}
-{% block extra_css %}<link rel="stylesheet" href="{% static 'todo/home.css' %}">{% endblock %}
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'todo/home.css' %}">
+{% endblock %}
+{% block body_class %}signup-page{% endblock %}
+
 {% block content %}
-  <div class="filter-box">
-    <h3 style="text-align:center; margin-bottom:16px;">新規 WantToDo</h3>
-    <form method="post" class="filter-form">
+  <h1 class="signup-title">新規WantToDo作成</h1>
+
+  <section class="signup-card">
+    {# フォーム全体のエラー #}
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {% for err in form.non_field_errors %}{{ err }}<br>{% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" class="signup-form" novalidate>
       {% csrf_token %}
-      <div class="filter-row">
-        <label>タイトル</label>
-        {{ form.title }}
-      </div>
-      <div class="filter-row">
-        <label>カテゴリ</label>
-        {{ form.category }}
-        <label>難易度</label>
-        {{ form.difficulty }}
-      </div>
-      <div class="filter-row">
-        <label>期限</label>
-        {{ form.deadline }}
-      </div>
-      <button type="submit" class="btn btn-secondary filter-btn">保存</button>
+
+      <label class="signup-label" for="{{ form.title.id_for_label }}">タイトル（必須）</label>
+      {{ form.title.errors }}
+      {{ form.title }}
+
+      <label class="signup-label" for="{{ form.deadline.id_for_label }}">期限（カレンダーから選択）</label>
+      {{ form.deadline.errors }}
+      {{ form.deadline }}
+
+      <label class="signup-label" for="{{ form.category.id_for_label }}">カテゴリ（必須）</label>
+      {{ form.category.errors }}
+      {{ form.category }}
+
+      <label class="signup-label" for="{{ form.difficulty.id_for_label }}">難易度（必須）</label>
+      {{ form.difficulty.errors }}
+      {{ form.difficulty }}
+
+      <label class="signup-label" for="{{ form.memo.id_for_label }}">メモ（任意）</label>
+      {{ form.memo.errors }}
+      {{ form.memo }}
+
+      <button type="submit" class="signup-submit">登録</button>
     </form>
-  </div>
+  </section>
 {% endblock %}

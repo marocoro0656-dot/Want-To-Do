@@ -67,3 +67,17 @@
   background: #b0b0b0;
   transition: background 0.2s ease;
 }
+
+/* 通常時 */
+.bottom-button .btn.btn-secondary {
+  background-color: #ccc !important;
+  color: #333 !important;
+  border: none !important;
+}
+
+/* hover時 */
+.bottom-button .btn.btn-secondary:hover {
+  background-color: #b0b0b0 !important;
+  color: #ffffff !important;
+  transition: background-color .2s ease;
+}

@@ -52,10 +52,14 @@ def add_want(request):
             want = form.save(commit=False)
             want.user = request.user
             want.save()
-            messages.success(request, 'WantToDo を作成しました。')
-            return redirect('todo_app:home')
+            messages.success(request, 'WantToDoを登録しました。')
+            return redirect('todo_app:incomplete_list')  # ← 成功時遷移
+        else:
+            # 必須漏れなど
+            messages.error(request, '入力内容に不備があります。各項目のエラーをご確認ください。')
     else:
         form = WantForm()
+
     return render(request, 'todo/add_want.html', {'form': form})
 
 @login_required
