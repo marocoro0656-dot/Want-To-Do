@@ -43,7 +43,29 @@
   {% if upcoming %}
     <ul class="todo-list">
       {% for w in upcoming %}
-        <li>・{{ w.title }}（{% if w.deadline %}〜{{ w.deadline }}{% else %}期限未設定{% endif %}）</li>
+        <li class="todo-item">
+          <div class="todo-main">
+            <div class="todo-title">{{ w.title }}</div>
+            <div class="todo-sub">
+              <span class="badge-diff
+                {% if w.difficulty == 'high' %}high
+                {% elif w.difficulty == 'medium' %}medium
+                {% else %}low{% endif %}
+              ">{{ w.get_difficulty_display }}</span>
+              <span class="todo-deadline">
+                {% if w.deadline %}期限：{{ w.deadline }}{% else %}期限未設定{% endif %}
+              </span>
+            </div>
+            {% if w.memo %}<div class="todo-memo">{{ w.memo }}</div>{% endif %}
+          </div>
+          <div class="todo-actions">
+            <form method="post" action="{% url 'todo_app:complete_want' w.id %}">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{% url 'todo_app:home' %}">
+              <button type="submit" class="btn-complete">完了</button>
+            </form>
+          </div>
+        </li>
       {% endfor %}
     </ul>
   {% else %}

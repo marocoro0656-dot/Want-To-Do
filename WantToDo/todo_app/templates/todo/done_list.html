@@ -1,43 +1,45 @@
+
 {% extends 'todo/base.html' %}
 {% load static %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'todo/home.css' %}">{% endblock %}
 
 {% block content %}
   <div class="filter-box" style="max-width:900px;">
-    <h3 style="text-align:center; margin-bottom:16px;">未完了のWantToDo</h3>
+    <h3 style="text-align:center; margin-bottom:16px;">完了済みのWant To Do</h3>
 
     {% if wants %}
       <ul class="todo-list">
         {% for w in wants %}
           <li class="todo-item">
             <div class="todo-main">
-              <div class="todo-title">{{ w.title }}</div>
-              <div class="todo-sub">
+              <div class="todo-title">
+                {{ w.title }}
                 <span class="badge-diff
                   {% if w.difficulty == 'high' %}high
                   {% elif w.difficulty == 'medium' %}medium
                   {% else %}low{% endif %}
                 ">{{ w.get_difficulty_display }}</span>
-                <span class="todo-deadline">
-                  {% if w.deadline %}期限：{{ w.deadline }}{% else %}期限未設定{% endif %}
+                
+                <span class="done-badge">
+                  {% if w.completed_at %}
+                    {{ w.completed_at|date:"n/j" }} 完了
+                  {% else %}
+                    完了
+                  {% endif %}
                 </span>
+              </div>
+              <div class="todo-sub">
+                {% if w.deadline %}期限：{{ w.deadline }}{% else %}期限未設定{% endif %}
                 {% if w.category %}<span class="todo-cat"> / {{ w.get_category_display }}</span>{% endif %}
+                {% if w.difficulty %}<span class="todo-cat"> / {{ w.get_difficulty_display }}</span>{% endif %}
               </div>
               {% if w.memo %}<div class="todo-memo">{{ w.memo }}</div>{% endif %}
-            </div>
-
-            <div class="todo-actions">
-              <form method="post" action="{% url 'todo_app:complete_want' w.id %}">
-                {% csrf_token %}
-                <input type="hidden" name="next" value="{% url 'todo_app:incomplete_list' %}?page={{ page_obj.number }}">
-                <button type="submit" class="btn-complete">完了</button>
-              </form>
             </div>
           </li>
         {% endfor %}
       </ul>
 
-      {# ページネーション #}
+      {% if page_obj.paginator.num_pages > 1 %}
       <div class="pagination-center">
         <nav aria-label="pagination">
           <ul class="pagination">
@@ -57,12 +59,13 @@
           </ul>
         </nav>
       </div>
+      {% endif %}
     {% else %}
-      <p class="signup-help" style="text-align:center">未完了の WantToDo はありません。</p>
+      <p class="signup-help" style="text-align:center">完了済みの WantToDo はありません。</p>
     {% endif %}
   </div>
 
   <div class="bottom-button">
-    <a href="{% url 'todo_app:add_want' %}" class="btn btn-gray">新たなWantToDoを追加</a>
+    <a href="{% url 'todo_app:incomplete_list' %}" class="btn btn-gray">未完了Want To Do一覧へ</a>
   </div>
 {% endblock %}

@@ -1,9 +1,12 @@
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
 from .models import Want
 from .forms import FilterForm, WantForm
+from django.utils import timezone
 
 def ryofunamoto(request):
     return render(
@@ -65,11 +68,32 @@ def add_want(request):
 @login_required
 def incomplete_list(request):
     qs = Want.objects.filter(user=request.user, done=False).order_by('deadline', '-updated_at')
-    return render(request, 'todo/incomplete_list.html', {'wants': qs})
+    paginator = Paginator(qs, 10)  # 1ページ=10件
+    page_obj = paginator.get_page(request.GET.get('page'))
+    return render(request, 'todo/incomplete_list.html', {
+        'page_obj': page_obj,
+        'wants': page_obj.object_list,  # テンプレで使いやすく
+    })
+
+@login_required
+@require_POST
+def complete_want(request, pk):
+    want = get_object_or_404(Want, pk=pk, user=request.user, done=False)
+    want.done = True
+    want.completed_at = timezone.now()         # ← ここで完了日時をセット
+    want.save()
+    messages.success(request, '完了にしました。')
+    next_url = request.POST.get('next') or 'todo_app:incomplete_list'
+    return redirect(next_url)
 
 @login_required
 def done_list(request):
-    # 実装例：ログインユーザーの完了済みのみを取得して渡す
-    # wants = Want.objects.filter(user=request.user, done=True).order_by('-updated_at')
-    wants = []  # まずは空で仮運用
-    return render(request, 'todo/done_list.html', {'wants': wants})
+    qs = (Want.objects
+          .filter(user=request.user, done=True)
+          .order_by('-deadline', '-completed_at', '-updated_at'))
+    paginator = Paginator(qs, 10)  # 必要ならページング（任意）
+    page_obj = paginator.get_page(request.GET.get('page'))
+    return render(request, 'todo/done_list.html', {
+        'wants': page_obj.object_list,
+        'page_obj': page_obj,
+    })

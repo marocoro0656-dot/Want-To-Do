@@ -22,8 +22,11 @@ class Want(models.Model):
     memo = models.CharField('メモ', max_length=120, blank=True) # ← 追加（未追加なら）
 
     done = models.BooleanField('完了', default=False)
+    completed_at = models.DateTimeField('完了日時', null=True, blank=True)  # ← 追加
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
 
 
     class Meta:

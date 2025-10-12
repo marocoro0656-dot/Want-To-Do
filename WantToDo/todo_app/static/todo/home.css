@@ -81,3 +81,98 @@
   color: #ffffff !important;
   transition: background-color .2s ease;
 }
+
+/* ==== リスト行 ==== */
+.todo-list { list-style:none; padding:0; margin:0 auto; display:inline-block; text-align:left; }
+.todo-item {
+  display:flex; justify-content:space-between; align-items:center;
+  gap:16px; min-width: 320px; max-width: 720px;
+  padding:12px 14px; border:1px solid #e5e7eb; border-radius:10px; background:#fff; margin: 10px 0;
+}
+.todo-main { display:flex; flex-direction:column; gap:4px; }
+.todo-title { font-weight:700; }
+.todo-sub { font-size: 0.9rem; opacity: .9; }
+.todo-memo { font-size: 0.9rem; color:#555; }
+
+/* 難易度バッジ */
+.badge-diff { display:inline-block; padding:2px 8px; border-radius: 999px; font-size: .8rem; margin-right:6px; }
+.badge-diff.high   { background:#e74c3c; color:#fff; }
+.badge-diff.medium { background:#f1c40f; color:#333; }
+.badge-diff.low    { background:#3498db; color:#fff; }
+
+/* 完了ボタン（緑） */
+.btn-complete {
+  background:#38a24b; color:#fff; border:none; border-radius:8px;
+  padding:8px 14px; font-weight:700; cursor:pointer;
+  transition: background .15s, transform .02s;
+}
+.btn-complete:hover { background:#2f8b40; }
+.btn-complete:active{ transform: translateY(1px); }
+
+/* ページネーション中央 */
+.pagination-center { text-align:center; margin-top: 12px; }
+
+/* 共通グレーボタン（未完了一覧へ等で使用済みなら重複OK） */
+.btn-gray {
+  background-color: #ccc !important; color: #333 !important; border: none !important;
+  border-radius: 6px; padding: 10px 20px; display: inline-block; text-decoration: none;
+}
+.btn-gray:hover { background-color: #b0b0b0 !important; color: #000 !important; transition: background-color .2s; }
+
+
+/* ===== 未完了一覧を中央寄せにする ===== */
+
+/* 一覧全体を中央揃え（flex） */
+.filter-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* ← 中央揃え */
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* 各リスト行を中央寄せ（最大幅を指定） */
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 720px;         /* ← 横幅制限して中央寄せ */
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* ← 子要素も中央揃え */
+}
+
+/* 各アイテムを中央基準に */
+.todo-item {
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  margin: 10px 0;
+}
+
+/* 「新たなWantToDoを追加」ボタンも中央に */
+.bottom-button {
+  text-align: center;
+  margin-top: 20px;
+}
+
+
+/* 完了バッジ（タイトル横） */
+.done-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: .8rem;
+  background: #e8f5e9;   /* 薄い緑 */
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
