@@ -1,0 +1,17 @@
+{% extends 'todo/base.html' %}
+{% load static %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'todo/home.css' %}">{% endblock %}
+{% block content %}
+  <div class="filter-box">
+    <h3 style="text-align:center; margin-bottom:16px;">未完了 WantToDo 一覧</h3>
+    {% if wants %}
+      <ul class="todo-list">
+        {% for w in wants %}
+          <li>・{{ w.title }}（{% if w.deadline %}〜{{ w.deadline }}{% else %}期限未設定{% endif %}）</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="signup-help" style="text-align:center">未完了の WantToDo はありません。</p>
+    {% endif %}
+  </div>
+{% endblock %}

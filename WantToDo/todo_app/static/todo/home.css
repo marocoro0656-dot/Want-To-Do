@@ -1,0 +1,69 @@
+/* 全体の枠は既存でOK。中央＆幅制限 */
+.filter-box {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 0 auto 30px;
+  max-width: 760px; /* 好みで */
+}
+
+/* 行を中央寄せ */
+.filter-form { display: flex; flex-direction: column; gap: 16px; }
+.filter-row   { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+
+/* フィールド（ラベル→入力を縦並び＆中央寄せ） */
+.filter-field { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 220px; }
+.filter-label { font-weight: 700; }
+
+/* 期間の横並び（開始〜終了） */
+.period-field .period-range { display: flex; align-items: center; gap: 8px; }
+.period-field .tilde { opacity: .7; }
+
+/* 入力の幅を揃える（select / date） */
+.filter-select,
+.filter-date {
+  min-width: 220px;
+  max-width: 260px;
+}
+
+/* ボタンも中央 */
+.filter-actions { text-align: center; }
+.filter-btn { border-radius: 6px; background: #ccc; color:#333; border:none; padding: 10px 20px; }
+.filter-btn:hover { background:#b0b0b0; transition: background .2s; }
+
+/* ==== 下部のボタン・リスト中央寄せ ==== */
+.action-buttons,
+.todo-preview,
+.bottom-button {
+  text-align: center;   /* 全体中央揃え */
+  margin-top: 20px;
+}
+
+/* WantToDoリストも中央寄せ */
+.todo-list {
+  display: inline-block; /* liを中央に見せる */
+  text-align: left;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+/* ボタンの共通見た目 */
+.add-btn,
+.bottom-button .btn {
+  border-radius: 6px;
+  background: #ccc;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.add-btn:hover,
+.bottom-button .btn:hover {
+  background: #b0b0b0;
+  transition: background 0.2s ease;
+}

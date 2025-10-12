@@ -1,0 +1,26 @@
+{% extends 'todo/base.html' %}
+{% load static %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'todo/home.css' %}">{% endblock %}
+{% block content %}
+  <div class="filter-box">
+    <h3 style="text-align:center; margin-bottom:16px;">新規 WantToDo</h3>
+    <form method="post" class="filter-form">
+      {% csrf_token %}
+      <div class="filter-row">
+        <label>タイトル</label>
+        {{ form.title }}
+      </div>
+      <div class="filter-row">
+        <label>カテゴリ</label>
+        {{ form.category }}
+        <label>難易度</label>
+        {{ form.difficulty }}
+      </div>
+      <div class="filter-row">
+        <label>期限</label>
+        {{ form.deadline }}
+      </div>
+      <button type="submit" class="btn btn-secondary filter-btn">保存</button>
+    </form>
+  </div>
+{% endblock %}
