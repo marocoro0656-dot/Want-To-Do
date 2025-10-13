@@ -13,9 +13,7 @@
     <ul class="todo-list is-detail">
       <li class="todo-item editable">
         {# 内側カード右上に編集ボタン #}
-        <a href="{% url 'todo_app:detail' w.id %}#"
-           onclick="alert('編集画面は未実装です'); return false;"
-           class="btn-gray edit-btn">編集</a>
+        <a class="btn-gray edit-btn" href="{% url 'todo_app:edit' w.id %}">編集</a>
 
         <div class="todo-main">
 

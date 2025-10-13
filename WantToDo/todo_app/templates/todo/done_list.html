@@ -1,4 +1,3 @@
-
 {% extends 'todo/base.html' %}
 {% load static %}
 {% load todo_extras %}
@@ -11,12 +10,14 @@
     {% if wants %}
       <ul class="todo-list">
         {% for w in wants %}
-          <li class="todo-item">
-            <div class="todo-main">
+          {# 難易度ごとに背景色を変える #}
+          <li class="todo-item {{ w.difficulty|diff_row_class }}">
+            <div class="todo-main position-relative">
+              {# 行全体クリックで詳細ページへ遷移 #}
+              <a href="{% url 'todo_app:done_detail' w.id %}" class="stretched-link" aria-label="詳細へ"></a>
+
               <div class="todo-title">
                 {{ w.title }}
-              
-                
                 <span class="done-badge">
                   {% if w.completed_at %}
                     {{ w.completed_at|date:"n/j" }} 完了
@@ -25,22 +26,34 @@
                   {% endif %}
                 </span>
               </div>
+
               <div class="todo-sub">
                 <span class="badge-diff
                   {% if w.difficulty == 'high' %}high
                   {% elif w.difficulty == 'medium' %}medium
                   {% else %}low{% endif %}
                 ">{{ w.get_difficulty_display }}</span>
-                {% if w.deadline %}期限：{{ w.deadline }}{% else %}期限未設定{% endif %}
-                {% if w.category %}<span class="todo-cat"> / {{ w.get_category_display }}</span>{% endif %}
-                
+
+                {% if w.deadline %}
+                  期限：{{ w.deadline }}
+                {% else %}
+                  期限未設定
+                {% endif %}
+
+                {% if w.category %}
+                  <span class="todo-cat"> / {{ w.get_category_display }}</span>
+                {% endif %}
               </div>
-              {% if w.memo %}<div class="todo-memo">{{ w.memo }}</div>{% endif %}
+
+              {% if w.memo %}
+                <div class="todo-memo">{{ w.memo }}</div>
+              {% endif %}
             </div>
           </li>
         {% endfor %}
       </ul>
 
+      {# ページネーション #}
       {% if page_obj.paginator.num_pages > 1 %}
       <div class="pagination-center">
         <nav aria-label="pagination">
@@ -51,7 +64,9 @@
               <li class="page-item disabled"><span class="page-link">前へ</span></li>
             {% endif %}
 
-            <li class="page-item disabled"><span class="page-link">{{ page_obj.number }}/{{ page_obj.paginator.num_pages }}</span></li>
+            <li class="page-item disabled">
+              <span class="page-link">{{ page_obj.number }}/{{ page_obj.paginator.num_pages }}</span>
+            </li>
 
             {% if page_obj.has_next %}
               <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">次へ</a></li>
@@ -62,6 +77,7 @@
         </nav>
       </div>
       {% endif %}
+
     {% else %}
       <p class="signup-help" style="text-align:center">完了済みの WantToDo はありません。</p>
     {% endif %}

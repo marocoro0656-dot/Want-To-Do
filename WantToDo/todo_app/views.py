@@ -7,6 +7,10 @@ from django.db.models import Q
 from .models import Want
 from .forms import FilterForm, WantForm
 from django.utils import timezone
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse
+from django.views.generic import UpdateView, DetailView
+
 
 def ryofunamoto(request):
     return render(
@@ -112,3 +116,44 @@ def delete_want(request, pk):
     messages.success(request, f'「{title}」を削除しました。')
     # 削除後は未完了一覧へ
     return redirect('todo_app:incomplete_list')
+
+class WantUpdateView(LoginRequiredMixin, UpdateView):
+    model = Want
+    form_class = WantForm
+    template_name = "todo/want_edit.html"
+
+    # 自分のデータ以外は編集できない
+    def get_queryset(self):
+        return Want.objects.filter(user=self.request.user)
+
+    # 保存後は詳細へ戻す
+    def get_success_url(self):
+        return reverse("todo_app:detail", kwargs={"pk": self.object.pk})
+
+class DoneWantDetailView(LoginRequiredMixin, DetailView):
+    model = Want
+    template_name = "todo/done_detail.html"   # 作るテンプレ名
+    context_object_name = "w"
+
+    # 自分のアイテム ＆ 完了済み（done=True）のみ表示
+    def get_queryset(self):
+        return Want.objects.filter(user=self.request.user, done=True)
+
+@login_required
+@require_POST
+def revert_want(request, pk):
+    w = get_object_or_404(Want, pk=pk, user=request.user, done=True)
+    w.done = False
+    w.save(update_fields=["done", "updated_at"])
+    messages.success(request, "1件未完了にしました")
+    next_url = request.POST.get("next") or reverse("todo_app:done_list")
+    return redirect(next_url)
+
+@login_required
+@require_POST
+def delete_want(request, pk):
+    w = get_object_or_404(Want, pk=pk, user=request.user)
+    w.delete()
+    messages.success(request, "1件削除しました")
+    next_url = request.POST.get("next") or reverse("todo_app:done_list")
+    return redirect(next_url)
