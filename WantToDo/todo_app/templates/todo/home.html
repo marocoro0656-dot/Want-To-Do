@@ -1,5 +1,6 @@
 {% extends 'todo/base.html' %}
 {% load static %}
+{% load todo_extras %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'todo/home.css' %}">
@@ -43,21 +44,28 @@
   {% if upcoming %}
     <ul class="todo-list">
       {% for w in upcoming %}
-        <li class="todo-item">
-          <div class="todo-main">
-            <div class="todo-title">{{ w.title }}</div>
+        <li class="todo-item {{ w.difficulty|diff_row_class }}">
+          <div class="todo-main position-relative">
+            {# 行全体クリックで詳細へ #}
+            <a href="{% url 'todo_app:detail' w.id %}" class="stretched-link"></a>
+
+            <div class="todo-title">
+              {{ w.title }}
+              <span class="badge-diff {{ w.difficulty|diff_badge_class }}">
+                {{ w.get_difficulty_display }}
+              </span>
+            </div>
+
             <div class="todo-sub">
-              <span class="badge-diff
-                {% if w.difficulty == 'high' %}high
-                {% elif w.difficulty == 'medium' %}medium
-                {% else %}low{% endif %}
-              ">{{ w.get_difficulty_display }}</span>
               <span class="todo-deadline">
                 {% if w.deadline %}期限：{{ w.deadline }}{% else %}期限未設定{% endif %}
               </span>
+              {% if w.category %}<span class="todo-cat"> / {{ w.get_category_display }}</span>{% endif %}
             </div>
+
             {% if w.memo %}<div class="todo-memo">{{ w.memo }}</div>{% endif %}
           </div>
+
           <div class="todo-actions">
             <form method="post" action="{% url 'todo_app:complete_want' w.id %}">
               {% csrf_token %}

@@ -14,11 +14,7 @@
             <div class="todo-main">
               <div class="todo-title">
                 {{ w.title }}
-                <span class="badge-diff
-                  {% if w.difficulty == 'high' %}high
-                  {% elif w.difficulty == 'medium' %}medium
-                  {% else %}low{% endif %}
-                ">{{ w.get_difficulty_display }}</span>
+              
                 
                 <span class="done-badge">
                   {% if w.completed_at %}
@@ -29,9 +25,14 @@
                 </span>
               </div>
               <div class="todo-sub">
+                <span class="badge-diff
+                  {% if w.difficulty == 'high' %}high
+                  {% elif w.difficulty == 'medium' %}medium
+                  {% else %}low{% endif %}
+                ">{{ w.get_difficulty_display }}</span>
                 {% if w.deadline %}期限：{{ w.deadline }}{% else %}期限未設定{% endif %}
                 {% if w.category %}<span class="todo-cat"> / {{ w.get_category_display }}</span>{% endif %}
-                {% if w.difficulty %}<span class="todo-cat"> / {{ w.get_difficulty_display }}</span>{% endif %}
+                
               </div>
               {% if w.memo %}<div class="todo-memo">{{ w.memo }}</div>{% endif %}
             </div>

@@ -1,0 +1,70 @@
+{% extends 'todo/base.html' %}
+{% load static %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'todo/home.css' %}">{% endblock %}
+{% block body_class %}signup-page{% endblock %}
+
+{% block content %}
+  <div class="filter-box" style="max-width:760px;">
+    <div class="d-flex justify-content-between align-items-start">
+      <h3 class="signup-title" style="margin:0;">WantToDo 詳細</h3>
+      <a class="btn btn-gray" href="{% url 'todo_app:detail' w.id %}#"
+         onclick="alert('編集画面は未実装です'); return false;">編集</a>
+      {# 編集画面ができたら ↑ を href="{% url 'todo_app:edit' w.id %}" に差し替え #}
+    </div>
+
+    <section class="signup-card" style="text-align:center;">
+      <div class="mb-3">
+        <div class="signup-label">タイトル</div>
+        <div class="fw-bold">{{ w.title }}</div>
+      </div>
+
+      <div class="mb-3">
+        <div class="signup-label">期限</div>
+        <div>{% if w.deadline %}{{ w.deadline }}{% else %}期限未設定{% endif %}</div>
+      </div>
+
+      <div class="mb-3">
+        <div class="signup-label">カテゴリ</div>
+        <div>{% if w.category %}{{ w.get_category_display }}{% else %}-{% endif %}</div>
+      </div>
+
+      <div class="mb-3">
+        <div class="signup-label">難易度</div>
+        <div>
+          <span class="badge-diff
+            {% if w.difficulty == 'high' %}high
+            {% elif w.difficulty == 'medium' %}medium
+            {% else %}low{% endif %}
+          ">{{ w.get_difficulty_display }}</span>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="signup-label">メモ</div>
+        <div style="white-space:pre-wrap;">{% if w.memo %}{{ w.memo }}{% else %}-{% endif %}</div>
+      </div>
+
+      <div class="d-flex justify-content-center gap-2 mt-3">
+        {# 完了ボタン：押すと完了→完了一覧へ #}
+        {% if not w.done %}
+          <form method="post" action="{% url 'todo_app:complete_want' w.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{% url 'todo_app:done_list' %}">
+            <button type="submit" class="btn-complete">完了</button>
+          </form>
+        {% else %}
+          <span class="done-badge">
+            {% if w.completed_at %}{{ w.completed_at|date:"n/j" }} 完了{% else %}完了{% endif %}
+          </span>
+        {% endif %}
+
+        {# 削除ボタン：confirm で確認してからPOST #}
+        <form method="post" action="{% url 'todo_app:delete_want' w.id %}"
+              onsubmit="return confirm('本当に削除しますか？');">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger" style="border:none;border-radius:8px;">削除</button>
+        </form>
+      </div>
+    </section>
+  </div>
+{% endblock %}

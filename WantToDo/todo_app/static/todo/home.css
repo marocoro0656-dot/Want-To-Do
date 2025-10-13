@@ -176,3 +176,13 @@
   color: #2e7d32;
   border: 1px solid #c8e6c9;
 }
+
+/* 行全体クリック（stretched-link）用 */
+.todo-item { position: relative; }
+.todo-main { position: relative; z-index: 1; }
+.todo-actions { position: relative; z-index: 2; }
+
+/* 難易度に応じた背景（他で白背景が勝つ場合） */
+.todo-item.row-high   { background:#fdecea; }
+.todo-item.row-medium { background:#fff8e1; }
+.todo-item.row-low    { background:#e8f4fd; }

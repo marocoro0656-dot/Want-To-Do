@@ -43,3 +43,11 @@
 .todo-list li:hover {
   filter: brightness(0.97);
 }
+
+/* 以前の .todo-item { background:#fff; } を打ち消す/上書き */
+.todo-item.row-high   { background: #fdecea; }  /* 高：淡い赤 */
+.todo-item.row-medium { background: #fff8e1; }  /* 中：淡い黄 */
+.todo-item.row-low    { background: #e8f4fd; }  /* 低：淡い青 */
+
+.todo-item .position-relative { position: relative; }
+.todo-item { position: relative; }

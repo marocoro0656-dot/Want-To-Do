@@ -10,4 +10,7 @@ urlpatterns = [
     path('incomplete/', views.incomplete_list, name='incomplete_list'),  # 未完了一覧
     path('done/', views.done_list, name='done_list'),
     path('complete/<int:pk>/', views.complete_want, name='complete_want'),
+    path('detail/<int:pk>/', views.want_detail, name='detail'),
+    path('delete/<int:pk>/', views.delete_want, name='delete_want'),
+
     ]

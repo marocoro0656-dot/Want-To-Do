@@ -83,8 +83,7 @@ def complete_want(request, pk):
     want.completed_at = timezone.now()         # ← ここで完了日時をセット
     want.save()
     messages.success(request, '完了にしました。')
-    next_url = request.POST.get('next') or 'todo_app:incomplete_list'
-    return redirect(next_url)
+    return redirect(request.POST.get('next') or 'todo_app:done_list')
 
 @login_required
 def done_list(request):
@@ -97,3 +96,19 @@ def done_list(request):
         'wants': page_obj.object_list,
         'page_obj': page_obj,
     })
+    
+@login_required
+def want_detail(request, pk):
+    done=False
+    want = get_object_or_404(Want, pk=pk, user=request.user)
+    return render(request, 'todo/detail.html', {'w': want})
+
+@login_required
+@require_POST
+def delete_want(request, pk):
+    want = get_object_or_404(Want, pk=pk, user=request.user)
+    title = want.title
+    want.delete()
+    messages.success(request, f'「{title}」を削除しました。')
+    # 削除後は未完了一覧へ
+    return redirect('todo_app:incomplete_list')

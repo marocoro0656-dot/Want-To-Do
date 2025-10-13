@@ -1,5 +1,6 @@
 {% extends 'todo/base.html' %}
 {% load static %}
+{% load todo_extras %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'todo/home.css' %}">{% endblock %}
 
 {% block content %}
@@ -9,15 +10,16 @@
     {% if wants %}
       <ul class="todo-list">
         {% for w in wants %}
-          <li class="todo-item">
+          <li class="todo-item {{ w.difficulty|diff_row_class }}">
             <div class="todo-main">
+              {# 行全体をクリックで詳細へ #}
+              <a href="{% url 'todo_app:detail' w.id %}" class="stretched-link"></a>
+
               <div class="todo-title">{{ w.title }}</div>
               <div class="todo-sub">
-                <span class="badge-diff
-                  {% if w.difficulty == 'high' %}high
-                  {% elif w.difficulty == 'medium' %}medium
-                  {% else %}low{% endif %}
-                ">{{ w.get_difficulty_display }}</span>
+                <span class="badge-diff {{ w.difficulty|diff_badge_class }}">
+                  {{ w.get_difficulty_display }}
+                </span>
                 <span class="todo-deadline">
                   {% if w.deadline %}期限：{{ w.deadline }}{% else %}期限未設定{% endif %}
                 </span>
@@ -37,26 +39,7 @@
         {% endfor %}
       </ul>
 
-      {# ページネーション #}
-      <div class="pagination-center">
-        <nav aria-label="pagination">
-          <ul class="pagination">
-            {% if page_obj.has_previous %}
-              <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">前へ</a></li>
-            {% else %}
-              <li class="page-item disabled"><span class="page-link">前へ</span></li>
-            {% endif %}
-
-            <li class="page-item disabled"><span class="page-link">{{ page_obj.number }}/{{ page_obj.paginator.num_pages }}</span></li>
-
-            {% if page_obj.has_next %}
-              <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">次へ</a></li>
-            {% else %}
-              <li class="page-item disabled"><span class="page-link">次へ</span></li>
-            {% endif %}
-          </ul>
-        </nav>
-      </div>
+      {# ページネーション（略） #}
     {% else %}
       <p class="signup-help" style="text-align:center">未完了の WantToDo はありません。</p>
     {% endif %}
