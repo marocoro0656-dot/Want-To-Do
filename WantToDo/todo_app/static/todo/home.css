@@ -227,3 +227,45 @@
   color:inherit;
   text-decoration:none;
 }
+
+
+/* ==== 各WantToDoタイトルだけ左揃え ==== */
+.todo-title {
+  width: 100%;
+  text-align: left;
+}
+
+/* モーダル内ボタンの共通サイズ */
+.modal-actions button {
+  min-width: 120px;
+  height: 44px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s, transform .02s;
+  border: none;
+}
+
+/* 「はい」ボタン：緑 */
+.modal-actions .btn-yes {
+  background: #38a24b;
+  color: #fff;
+}
+.modal-actions .btn-yes:hover {
+  background: #2f8b40;
+}
+.modal-actions .btn-yes:active {
+  transform: translateY(1px);
+}
+
+/* 「いいえ」ボタン：赤 */
+.modal-actions .btn-no {
+  background: #e74c3c;
+  color: #fff;
+}
+.modal-actions .btn-no:hover {
+  background: #c0392b;
+}
+.modal-actions .btn-no:active {
+  transform: translateY(1px);
+}

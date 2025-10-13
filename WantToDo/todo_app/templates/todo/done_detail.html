@@ -3,7 +3,7 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'todo/home.css' %}">
 <style>
-  /* 簡易モーダルの見た目 */
+  /* ==== モーダル共通スタイル ==== */
   dialog {
     border: none;
     border-radius: 12px;
@@ -12,9 +12,44 @@
     max-width: 420px;
     width: 92%;
   }
-  dialog::backdrop { background: rgba(0,0,0,.35); }
-  .modal-actions { display:flex; justify-content:center; gap:12px; margin-top:16px; }
-  .btn-outline { background:#fff; border:1px solid #ddd; border-radius:8px; padding:8px 14px; }
+  dialog::backdrop {
+    background: rgba(0,0,0,.35);
+  }
+
+  /* ボタン配置 */
+  .modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  /* ==== ボタン統一デザイン ==== */
+  .modal-actions button {
+    min-width: 120px;
+    height: 44px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    transition: background .15s, transform .02s;
+  }
+
+  /* 「はい」＝緑 */
+  .btn-yes {
+    background: #38a24b;
+    color: #fff;
+  }
+  .btn-yes:hover { background: #2f8b40; }
+  .btn-yes:active { transform: translateY(1px); }
+
+  /* 「いいえ」＝赤 */
+  .btn-no {
+    background: #e74c3c;
+    color: #fff;
+  }
+  .btn-no:hover { background: #c0392b; }
+  .btn-no:active { transform: translateY(1px); }
 </style>
 {% endblock %}
 
@@ -76,8 +111,8 @@
               {% csrf_token %}
               <input type="hidden" name="next" value="{% url 'todo_app:done_list' %}">
               <div class="modal-actions">
-                <button type="submit" class="btn-complete">はい</button>
-                <button type="button" class="btn-outline" onclick="document.getElementById('revertModal').close()">キャンセル</button>
+                <button type="submit" class="btn-yes">はい</button>
+                <button type="button" class="btn-no" onclick="document.getElementById('revertModal').close()">いいえ</button>
               </div>
             </form>
           </dialog>
@@ -89,8 +124,8 @@
               {% csrf_token %}
               <input type="hidden" name="next" value="{% url 'todo_app:done_list' %}">
               <div class="modal-actions">
-                <button type="submit" class="btn-delete">はい</button>
-                <button type="button" class="btn-outline" onclick="document.getElementById('deleteModal').close()">キャンセル</button>
+                <button type="submit" class="btn-yes">はい</button>
+                <button type="button" class="btn-no" onclick="document.getElementById('deleteModal').close()">いいえ</button>
               </div>
             </form>
           </dialog>

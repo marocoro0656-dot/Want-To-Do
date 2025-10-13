@@ -1,14 +1,28 @@
 {% extends 'todo/base.html' %}
 {% load static %}
 {% load todo_extras %}
-{% block extra_css %}<link rel="stylesheet" href="{% static 'todo/home.css' %}">{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'todo/home.css' %}">
+<style>
+  /* 簡易モーダルの見た目（done_detail と同じ） */
+  dialog {
+    border: none;
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.2);
+    max-width: 420px;
+    width: 92%;
+  }
+  dialog::backdrop { background: rgba(0,0,0,.35); }
+  .modal-actions { display:flex; justify-content:center; gap:12px; margin-top:16px; }
+  .btn-outline { background:#fff; border:1px solid #ddd; border-radius:8px; padding:8px 14px; }
+</style>
+{% endblock %}
 
 {% block content %}
   {# 外枠の枠線を消すため no-frame を付与 #}
   <div class="filter-box no-frame">
     <h3 style="text-align:center; margin-bottom:16px;">Want To Do詳細</h3>
-
-    {# タイトル行のグリッドは不要→内側カードに移動 #}
 
     <ul class="todo-list is-detail">
       <li class="todo-item editable">
@@ -61,12 +75,25 @@
               </span>
             {% endif %}
 
-            <form method="post" action="{% url 'todo_app:delete_want' w.id %}"
-                  onsubmit="return confirm('本当に削除しますか？');">
-              {% csrf_token %}
-              <button type="submit" class="btn-delete">削除</button>
-            </form>
+            {# ■ 削除：モーダルを使って確認 #}
+            <button type="button" class="btn-delete" onclick="document.getElementById('deleteModal').showModal()">
+              削除
+            </button>
           </div>
+
+          {# 削除モーダル #}
+            <dialog id="deleteModal">
+            <p style="text-align:center; font-weight:700; margin:0 0 8px;">本当に削除しますか？</p>
+            <form method="post" action="{% url 'todo_app:delete_want' w.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{% url 'todo_app:incomplete_list' %}">
+                <div class="modal-actions">
+                <button type="submit" class="btn-yes">はい</button>
+                <button type="button" class="btn-no" onclick="document.getElementById('deleteModal').close()">いいえ</button>
+                </div>
+            </form>
+            </dialog>
+
         </div>
       </li>
     </ul>

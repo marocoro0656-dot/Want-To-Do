@@ -42,25 +42,26 @@
 
   <br>
 
-
   <div class="todo-preview">
-    <h3>期限が近いWantToDo</h3>
+    
   {% if upcoming %}
     <ul class="todo-list">
       {% for w in upcoming %}
         <li class="todo-item {{ w.difficulty|diff_row_class }}">
           <div class="todo-main position-relative">
-            
+            {# 行全体クリック #}
             <a href="{% url 'todo_app:detail' w.id %}" class="stretched-link"></a>
 
+            {# タイトルはタイトルだけ（左寄せ） #}
             <div class="todo-title">
               {{ w.title }}
+            </div>
+
+            {# ★ バッジをこちら（2行目の左端）に移動 ★ #}
+            <div class="todo-sub">
               <span class="badge-diff {{ w.difficulty|diff_badge_class }}">
                 {{ w.get_difficulty_display }}
               </span>
-            </div>
-
-            <div class="todo-sub">
               <span class="todo-deadline">
                 {% if w.deadline %}期限：{{ w.deadline }}{% else %}期限未設定{% endif %}
               </span>
@@ -83,6 +84,7 @@
   {% else %}
     <p class="signup-help" style="text-align:center">該当する未完了のWantToDoはありません。</p>
   {% endif %}
+  </div>
 </div>
 
 <div class="bottom-button">
