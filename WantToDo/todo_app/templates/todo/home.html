@@ -35,18 +35,22 @@
   </form>
 </div>
 
-<div class="action-buttons">
-  <a href="{% url 'todo_app:add_want' %}" class="btn btn-secondary add-btn">新たなWantToDoを追加</a>
-</div>
+<div class="filter-box">
+  <div class="action-buttons">
+    <a href="{% url 'todo_app:add_want' %}" class="btn btn-secondary add-btn">新たなWantToDoを追加</a>
+  </div>
 
-<div class="todo-preview">
-  <h3>期限が近いWantToDo</h3>
+  <br>
+
+
+  <div class="todo-preview">
+    <h3>期限が近いWantToDo</h3>
   {% if upcoming %}
     <ul class="todo-list">
       {% for w in upcoming %}
         <li class="todo-item {{ w.difficulty|diff_row_class }}">
           <div class="todo-main position-relative">
-            {# 行全体クリックで詳細へ #}
+            
             <a href="{% url 'todo_app:detail' w.id %}" class="stretched-link"></a>
 
             <div class="todo-title">

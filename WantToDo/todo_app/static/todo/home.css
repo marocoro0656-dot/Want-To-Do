@@ -1,188 +1,219 @@
-/* 全体の枠は既存でOK。中央＆幅制限 */
-.filter-box {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 20px;
-  margin: 0 auto 30px;
-  max-width: 760px; /* 好みで */
+/* ==== 幅の基準を変数で統一 ==== */
+:root{
+  --container-w: 900px; /* 外枠(filter-box/preview/ボタン)の幅 */
+  --list-w:      720px; /* ul.todo-list の幅 */
+  --item-w:      680px; /* li.todo-item の幅 */
+  --side-pad:    16px;  /* 画面左右の余白(スマホ用) */
 }
 
-/* 行を中央寄せ */
-.filter-form { display: flex; flex-direction: column; gap: 16px; }
-.filter-row   { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
-
-/* フィールド（ラベル→入力を縦並び＆中央寄せ） */
-.filter-field { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 220px; }
-.filter-label { font-weight: 700; }
-
-/* 期間の横並び（開始〜終了） */
-.period-field .period-range { display: flex; align-items: center; gap: 8px; }
-.period-field .tilde { opacity: .7; }
-
-/* 入力の幅を揃える（select / date） */
-.filter-select,
-.filter-date {
-  min-width: 220px;
-  max-width: 260px;
-}
-
-/* ボタンも中央 */
-.filter-actions { text-align: center; }
-.filter-btn { border-radius: 6px; background: #ccc; color:#333; border:none; padding: 10px 20px; }
-.filter-btn:hover { background:#b0b0b0; transition: background .2s; }
-
-/* ==== 下部のボタン・リスト中央寄せ ==== */
+/* ==== 横幅・中央揃え（全ページ共通） ==== */
+.filter-box,
 .action-buttons,
 .todo-preview,
-.bottom-button {
-  text-align: center;   /* 全体中央揃え */
-  margin-top: 20px;
-}
-
-/* WantToDoリストも中央寄せ */
-.todo-list {
-  display: inline-block; /* liを中央に見せる */
-  text-align: left;
-  margin: 0 auto;
-  padding: 0;
-  list-style: none;
-}
-
-/* ボタンの共通見た目 */
-.add-btn,
-.bottom-button .btn {
-  border-radius: 6px;
-  background: #ccc;
-  color: #333;
-  border: none;
-  padding: 10px 20px;
-  margin-top: 10px;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.add-btn:hover,
-.bottom-button .btn:hover {
-  background: #b0b0b0;
-  transition: background 0.2s ease;
-}
-
-/* 通常時 */
-.bottom-button .btn.btn-secondary {
-  background-color: #ccc !important;
-  color: #333 !important;
-  border: none !important;
-}
-
-/* hover時 */
-.bottom-button .btn.btn-secondary:hover {
-  background-color: #b0b0b0 !important;
-  color: #ffffff !important;
-  transition: background-color .2s ease;
-}
-
-/* ==== リスト行 ==== */
-.todo-list { list-style:none; padding:0; margin:0 auto; display:inline-block; text-align:left; }
-.todo-item {
-  display:flex; justify-content:space-between; align-items:center;
-  gap:16px; min-width: 320px; max-width: 720px;
-  padding:12px 14px; border:1px solid #e5e7eb; border-radius:10px; background:#fff; margin: 10px 0;
-}
-.todo-main { display:flex; flex-direction:column; gap:4px; }
-.todo-title { font-weight:700; }
-.todo-sub { font-size: 0.9rem; opacity: .9; }
-.todo-memo { font-size: 0.9rem; color:#555; }
-
-/* 難易度バッジ */
-.badge-diff { display:inline-block; padding:2px 8px; border-radius: 999px; font-size: .8rem; margin-right:6px; }
-.badge-diff.high   { background:#e74c3c; color:#fff; }
-.badge-diff.medium { background:#f1c40f; color:#333; }
-.badge-diff.low    { background:#3498db; color:#fff; }
-
-/* 完了ボタン（緑） */
-.btn-complete {
-  background:#38a24b; color:#fff; border:none; border-radius:8px;
-  padding:8px 14px; font-weight:700; cursor:pointer;
-  transition: background .15s, transform .02s;
-}
-.btn-complete:hover { background:#2f8b40; }
-.btn-complete:active{ transform: translateY(1px); }
-
-/* ページネーション中央 */
-.pagination-center { text-align:center; margin-top: 12px; }
-
-/* 共通グレーボタン（未完了一覧へ等で使用済みなら重複OK） */
-.btn-gray {
-  background-color: #ccc !important; color: #333 !important; border: none !important;
-  border-radius: 6px; padding: 10px 20px; display: inline-block; text-decoration: none;
-}
-.btn-gray:hover { background-color: #b0b0b0 !important; color: #000 !important; transition: background-color .2s; }
-
-
-/* ===== 未完了一覧を中央寄せにする ===== */
-
-/* 一覧全体を中央揃え（flex） */
-.filter-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;      /* ← 中央揃え */
-  justify-content: center;
+.bottom-button{
+  max-width: min(var(--container-w), calc(100% - var(--side-pad)*2));
+  margin: 0 auto 20px;
   text-align: center;
-  margin: 0 auto;
 }
 
-/* 各リスト行を中央寄せ（最大幅を指定） */
-.todo-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 auto;
+.todo-list{
   width: 100%;
-  max-width: 720px;         /* ← 横幅制限して中央寄せ */
+  max-width: min(var(--list-w), calc(100% - var(--side-pad)*2));
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
   display: flex;
   flex-direction: column;
-  align-items: center;      /* ← 子要素も中央揃え */
+  align-items: center;
 }
 
-/* 各アイテムを中央基準に */
-.todo-item {
+.todo-item{
   width: 100%;
-  max-width: 680px;
+  max-width: min(var(--item-w), calc(100% - var(--side-pad)*2));
+  margin: 10px 0;
+  padding: 12px 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 14px;
+  gap: 16px;
+  background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 10px;
-  background: #fff;
-  margin: 10px 0;
 }
 
-/* 「新たなWantToDoを追加」ボタンも中央に */
-.bottom-button {
-  text-align: center;
-  margin-top: 20px;
+/* ==== 見た目（装飾） ==== */
+.filter-box{
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:10px;
+  padding:20px;
 }
 
+/* ==== 検索/フィルタ（任意で使用） ==== */
+.filter-form{ display:flex; flex-direction:column; gap:16px; }
+.filter-row{ display:flex; justify-content:center; gap:24px; flex-wrap:wrap; }
+.filter-field{ display:flex; flex-direction:column; align-items:center; gap:8px; min-width:220px; }
+.filter-label{ font-weight:700; }
+.period-field .period-range{ display:flex; align-items:center; gap:8px; }
+.period-field .tilde{ opacity:.7; }
+.filter-select,.filter-date{ min-width:220px; max-width:260px; }
+.filter-actions{ text-align:center; }
+.filter-btn{ border-radius:6px; background:#ccc; color:#333; border:none; padding:10px 20px; }
+.filter-btn:hover{ background:#b0b0b0; transition:background .2s; }
+
+/* ==== テキスト部品 ==== */
+.todo-main{ display:flex; flex-direction:column; gap:4px; }
+.todo-title{ font-weight:700; }
+.todo-sub{ font-size:.9rem; opacity:.9; }
+.todo-memo{ font-size:.9rem; color:#555; }
+
+/* 詳細ページだけ中身も中央寄せにする */
+.todo-list.is-detail .todo-item{ justify-content:center; }
+.todo-list.is-detail .todo-main{ align-items:center; text-align:center; }
+
+/* 難易度バッジ */
+.badge-diff{ display:inline-block; padding:2px 8px; border-radius:999px; font-size:.8rem; margin-right:6px; }
+.badge-diff.high{ background:#e74c3c; color:#fff; }
+.badge-diff.medium{ background:#f1c40f; color:#333; }
+.badge-diff.low{ background:#3498db; color:#fff; }
 
 /* 完了バッジ（タイトル横） */
-.done-badge {
-  display: inline-block;
-  margin-left: 8px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: .8rem;
-  background: #e8f5e9;   /* 薄い緑 */
-  color: #2e7d32;
-  border: 1px solid #c8e6c9;
+.done-badge{
+  display:inline-block;
+  margin-left:8px;
+  padding:2px 8px;
+  border-radius:999px;
+  font-size:.8rem;
+  background:#e8f5e9;
+  color:#2e7d32;
+  border:1px solid #c8e6c9;
 }
 
-/* 行全体クリック（stretched-link）用 */
-.todo-item { position: relative; }
-.todo-main { position: relative; z-index: 1; }
-.todo-actions { position: relative; z-index: 2; }
+/* 行全体クリックなどの補助 */
+.todo-item{ position:relative; }
+.todo-main{ position:relative; z-index:1; }
+.todo-actions{ position:relative; z-index:2; }
 
-/* 難易度に応じた背景（他で白背景が勝つ場合） */
-.todo-item.row-high   { background:#fdecea; }
-.todo-item.row-medium { background:#fff8e1; }
-.todo-item.row-low    { background:#e8f4fd; }
+/* 行背景（任意） */
+.todo-item.row-high{ background:#fdecea; }
+.todo-item.row-medium{ background:#fff8e1; }
+.todo-item.row-low{ background:#e8f4fd; }
+
+/* ==== アクション（完了/削除ボタン） ==== */
+.action-bar{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-top:12px;
+  flex-wrap:wrap;
+}
+.action-form{ margin:0; }
+
+.btn-complete,.btn-delete{
+  display:inline-block;
+  min-width:140px;
+  height:44px;
+  line-height:44px;
+  padding:0 16px;
+  border:none;
+  border-radius:8px;
+  font-weight:700;
+  cursor:pointer;
+  transition:background .15s, transform .02s;
+}
+.btn-complete{ background:#38a24b; color:#fff; }
+.btn-complete:hover{ background:#2f8b40; }
+.btn-complete:active{ transform:translateY(1px); }
+.btn-delete{ background:#e74c3c; color:#fff; }
+.btn-delete:hover{ background:#c0392b; }
+.btn-delete:active{ transform:translateY(1px); }
+
+/* ==== 下部ナビ／共通グレーボタン ==== */
+.bottom-button{ text-align:center; margin-top:20px; }
+.add-btn,
+.bottom-button .btn{
+  border-radius:6px;
+  background:#ccc;
+  color:#333;
+  border:none;
+  padding:10px 20px;
+  margin-top:10px;
+  text-decoration:none;
+  display:inline-block;
+}
+.add-btn:hover,
+.bottom-button .btn:hover{ background:#b0b0b0; transition:background .2s ease; }
+
+/* 下部ボタンに限ってグレー強制（!important はここだけ） */
+.bottom-button .btn.btn-secondary,
+.bottom-button .btn-gray{
+  background-color:#ccc !important;
+  color:#333 !important;
+  border:none !important;
+}
+.bottom-button .btn.btn-secondary:hover,
+.bottom-button .btn-gray:hover{
+  background-color:#b0b0b0 !important;
+  color:#000 !important;
+  transition:background-color .2s;
+}
+
+/* ページネーション中央 */
+.pagination-center{ text-align:center; margin-top:12px; }
+
+/* 詳細ページの横幅（必要なら） */
+.detail-wrap{ max-width:var(--container-w); margin:0 auto; }
+
+/* カード内など汎用で使う薄グレーボタン */
+.btn-gray{
+  background:#ccc;
+  color:#333;
+  border:none;
+  border-radius:6px;
+  padding:10px 20px;
+  text-decoration:none;
+  display:inline-block;
+}
+.btn-gray:hover{
+  background:#b0b0b0;
+  transition:background .2s ease;
+}
+
+/* 外枠の枠線/背景を消す */
+.filter-box.no-frame{
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin-bottom: 20px; /* 好みで */
+}
+
+/* 詳細カードに編集ボタンを右上固定 */
+.todo-item.editable{ position: relative; }
+.todo-item .edit-btn{
+  position: absolute;
+  top: 12px;   /* .todo-item の padding に揃える */
+  right: 12px;
+  z-index: 3;
+}
+
+/* editボタンの見た目（共通グレー） */
+.btn-gray{
+  background:#ccc;
+  color:#333;
+  border:none;
+  border-radius:6px;
+  padding:10px 20px;
+  text-decoration:none;
+  display:inline-block;
+}
+.btn-gray:hover{ background:#b0b0b0; transition:background .2s ease; }
+
+
+/* 詳細タイトル（カード外に出した場合） */
+.detail-title{
+  text-align:center;
+  font-size: clamp(22px, 2.8vw, 32px);
+  font-weight: 800;
+  letter-spacing: .02em;
+  margin: 20px 0 16px;
+}
