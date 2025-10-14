@@ -85,9 +85,11 @@
     <p class="signup-help" style="text-align:center">該当する未完了のWantToDoはありません。</p>
   {% endif %}
   </div>
+
+  <div class="bottom-button">
+  <a href="{% url 'todo_app:incomplete_list' %}" class="btn btn-secondary">未完了WantToDo一覧へ</a>
+  </div>
+  
 </div>
 
-<div class="bottom-button">
-  <a href="{% url 'todo_app:incomplete_list' %}" class="btn btn-secondary">未完了WantToDo一覧へ</a>
-</div>
 {% endblock %}

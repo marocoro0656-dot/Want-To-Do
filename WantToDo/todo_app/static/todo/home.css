@@ -39,7 +39,17 @@
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 10px;
+  position: relative; /* 行全体クリック等の基準 */
 }
+
+.todo-main{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative; /* 行内リンク重なり対策 */
+  z-index: 1;
+}
+.todo-actions{ position: relative; z-index: 2; }
 
 /* ==== 見た目（装飾） ==== */
 .filter-box{
@@ -62,8 +72,7 @@
 .filter-btn:hover{ background:#b0b0b0; transition:background .2s; }
 
 /* ==== テキスト部品 ==== */
-.todo-main{ display:flex; flex-direction:column; gap:4px; }
-.todo-title{ font-weight:700; }
+.todo-title{ font-weight:700; width:100%; text-align:left; }
 .todo-sub{ font-size:.9rem; opacity:.9; }
 .todo-memo{ font-size:.9rem; color:#555; }
 
@@ -88,11 +97,6 @@
   color:#2e7d32;
   border:1px solid #c8e6c9;
 }
-
-/* 行全体クリックなどの補助 */
-.todo-item{ position:relative; }
-.todo-main{ position:relative; z-index:1; }
-.todo-actions{ position:relative; z-index:2; }
 
 /* 行背景（任意） */
 .todo-item.row-high{ background:#fdecea; }
@@ -158,13 +162,7 @@
   transition:background-color .2s;
 }
 
-/* ページネーション中央 */
-.pagination-center{ text-align:center; margin-top:12px; }
-
-/* 詳細ページの横幅（必要なら） */
-.detail-wrap{ max-width:var(--container-w); margin:0 auto; }
-
-/* カード内など汎用で使う薄グレーボタン */
+/* 共通グレーボタン（カード内などで使用） */
 .btn-gray{
   background:#ccc;
   color:#333;
@@ -179,12 +177,18 @@
   transition:background .2s ease;
 }
 
+/* ページネーション中央 */
+.pagination-center{ text-align:center; margin-top:12px; }
+
+/* 詳細ページの横幅（必要なら） */
+.detail-wrap{ max-width:var(--container-w); margin:0 auto; }
+
 /* 外枠の枠線/背景を消す */
 .filter-box.no-frame{
   border: none;
   background: transparent;
   padding: 0;
-  margin-bottom: 20px; /* 好みで */
+  margin-bottom: 20px;
 }
 
 /* 詳細カードに編集ボタンを右上固定 */
@@ -196,19 +200,6 @@
   z-index: 3;
 }
 
-/* editボタンの見た目（共通グレー） */
-.btn-gray{
-  background:#ccc;
-  color:#333;
-  border:none;
-  border-radius:6px;
-  padding:10px 20px;
-  text-decoration:none;
-  display:inline-block;
-}
-.btn-gray:hover{ background:#b0b0b0; transition:background .2s ease; }
-
-
 /* 詳細タイトル（カード外に出した場合） */
 .detail-title{
   text-align:center;
@@ -217,7 +208,6 @@
   letter-spacing: .02em;
   margin: 20px 0 16px;
 }
-
 
 /* 行全体クリック用リンク（Bootstrap相当の簡易版） */
 .stretched-link{
@@ -228,44 +218,38 @@
   text-decoration:none;
 }
 
-
-/* ==== 各WantToDoタイトルだけ左揃え ==== */
-.todo-title {
-  width: 100%;
-  text-align: left;
-}
-
-/* モーダル内ボタンの共通サイズ */
-.modal-actions button {
-  min-width: 120px;
-  height: 44px;
-  font-weight: 700;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background .15s, transform .02s;
+/* ==== モーダル（共通） ==== */
+dialog{
   border: none;
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.2);
+  max-width: 420px;
+  width: 92%;
 }
-
-/* 「はい」ボタン：緑 */
-.modal-actions .btn-yes {
-  background: #38a24b;
-  color: #fff;
+dialog::backdrop{ background: rgba(0,0,0,.35); }
+.modal-actions{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-top:16px;
 }
-.modal-actions .btn-yes:hover {
-  background: #2f8b40;
+.modal-actions button{
+  min-width:120px;
+  height:44px;
+  font-weight:700;
+  border-radius:8px;
+  cursor:pointer;
+  transition: background .15s, transform .02s;
+  border:none;
 }
-.modal-actions .btn-yes:active {
-  transform: translateY(1px);
+.modal-actions .btn-yes{
+  background:#38a24b; color:#fff;
 }
-
-/* 「いいえ」ボタン：赤 */
-.modal-actions .btn-no {
-  background: #e74c3c;
-  color: #fff;
+.modal-actions .btn-yes:hover{ background:#2f8b40; }
+.modal-actions .btn-yes:active{ transform: translateY(1px); }
+.modal-actions .btn-no{
+  background:#e74c3c; color:#fff;
 }
-.modal-actions .btn-no:hover {
-  background: #c0392b;
-}
-.modal-actions .btn-no:active {
-  transform: translateY(1px);
-}
+.modal-actions .btn-no:hover{ background:#c0392b; }
+.modal-actions .btn-no:active{ transform: translateY(1px); }

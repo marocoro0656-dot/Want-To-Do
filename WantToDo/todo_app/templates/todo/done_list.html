@@ -81,9 +81,12 @@
     {% else %}
       <p class="signup-help" style="text-align:center">完了済みの WantToDo はありません。</p>
     {% endif %}
-  </div>
 
   <div class="bottom-button">
     <a href="{% url 'todo_app:incomplete_list' %}" class="btn btn-gray">未完了Want To Do一覧へ</a>
   </div>
+
+  </div>
+
+
 {% endblock %}

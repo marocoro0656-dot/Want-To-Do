@@ -6,9 +6,10 @@
 {% block body_class %}signup-page{% endblock %}
 
 {% block content %}
-  <h1 class="signup-title">新規WantToDo作成</h1>
 
   <section class="signup-card">
+    <h3 style="text-align:center; margin-bottom:16px;">新規WantToDo作成</h3>
+    
     {# フォーム全体のエラー #}
     {% if form.non_field_errors %}
       <div class="alert alert-danger">
