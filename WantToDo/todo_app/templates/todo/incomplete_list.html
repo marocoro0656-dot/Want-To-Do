@@ -43,9 +43,11 @@
     {% else %}
       <p class="signup-help" style="text-align:center">未完了の WantToDo はありません。</p>
     {% endif %}
-  </div>
+  
 
   <div class="bottom-button">
     <a href="{% url 'todo_app:add_want' %}" class="btn btn-gray">新たなWantToDoを追加</a>
+  </div>
+
   </div>
 {% endblock %}

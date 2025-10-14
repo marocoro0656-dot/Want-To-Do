@@ -19,7 +19,7 @@
         h1 {
             margin-top: 40px;
             font-size: 36px;
-            color: #4d93e3b6;
+            color: #1b9aea;
         }
 
         img {
@@ -78,7 +78,7 @@
 
     <h1>WantToDo</h1>
 
-    <img src="/static/images/myapp_image.png" alt="WantToDo">
+    <img src="/static/WantToDo/紹介画像.png" alt="WantToDo">
 
     <div class="description">
         <p>「Want To Doリスト」は、自分のやりたいこと＆欲しいものを整理・管理するためのWebアプリケーションです。<br>
@@ -88,10 +88,10 @@
     </div>
 
     <div class="links">
-        <a href="{% static '企画書.pdf' %}" target="_blank" rel="noopener noreferrer">企画書</a>
-        <a href="{% static '画面設計図.pdf' %}" target="_blank" rel="noopener noreferrer">画面設計図</a>
-        <a href="{% static '画面遷移図.pdf' %}" target="_blank" rel="noopener noreferrer">画面遷移図</a>
-        <a href="{% static 'ER図.pdf' %}" target="_blank" rel="noopener noreferrer">ER図</a>
+        <a href="{% static 'WantToDo/企画書.pdf' %}" target="_blank" rel="noopener noreferrer">企画書</a>
+        <a href="{% static 'WantToDo/画面設計図.pdf' %}" target="_blank" rel="noopener noreferrer">画面設計図</a>
+        <a href="{% static 'WantToDo/画面遷移図.pdf' %}" target="_blank" rel="noopener noreferrer">画面遷移図</a>
+        <a href="{% static 'WantToDo/ER図.pdf' %}" target="_blank" rel="noopener noreferrer">ER図</a>
     </div>
 
     <a href="{% url 'user:login' %}" class="app-link">アプリにアクセス</a>

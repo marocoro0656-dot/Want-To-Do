@@ -148,7 +148,7 @@
 .add-btn:hover,
 .bottom-button .btn:hover{ background:#b0b0b0; transition:background .2s ease; }
 
-/* 下部ボタンに限ってグレー強制（!important はここだけ） */
+/* 下部ボタンに限ってグレー強制 */
 .bottom-button .btn.btn-secondary,
 .bottom-button .btn-gray{
   background-color:#ccc !important;
