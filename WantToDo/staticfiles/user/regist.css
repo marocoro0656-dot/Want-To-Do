@@ -1,65 +1,4 @@
-
-
-/* ==== 固定ナビバー ==== */
-.navbar.my-navbar {
-  z-index: 1020; /* コンテンツより前面に出す */
-  background: #1b9aea !important;
-  box-shadow: 0 2px 4px rgba(0,0,0,.05);
-  border-bottom: 2px solid #f0f0f0;
-}
-
-/* ==== sticky-top に切り替えた後の余白リセット ==== */
-body, body.signup-page {
-  padding-top: 0 !important;   /* ← 固定ナビ対策の名残を無効化 */
-}
-
-/* 念のため：.navbar.my-navbar に fixed を書かない */
-.navbar.my-navbar {
-  z-index: 1020;               /* 影や色などの見た目指定はそのままでOK */
-}
-
-/* 固定ナビ分の余白を下に確保（main全体をずらす） */
-body {
-  margin: 0;
-  padding-top: 0; /* ← 余白リセット */
-  font-family: 'Segoe UI','Hiragino Kaku Gothic ProN','メイリオ',sans-serif;
-  background: #fffefc;
-  color: #333;
-}
-
-/* 左上ロゴ */
-.navbar.my-navbar .navbar-brand{
-  color:#fff !important;
-  font-weight:700;
-  letter-spacing:.03em;
-}
-.navbar.my-navbar .navbar-brand:hover{ color:#e6f4ff !important; }
-
-.navbar.my-navbar .navbar-brand {
-  font-size: 1.6rem;              /* 固定サイズ */
-  font-family:'Segoe UI','Hiragino Kaku Gothic ProN','メイリオ',sans-serif;
-  color:#fff !important;
-  font-weight:700;
-  letter-spacing:.03em;
-}
-
-/* 右上のボタン系（必要に応じて） */
-.navbar.my-navbar .btn-outline-secondary,
-.navbar.my-navbar .btn-outline-danger{
-  color:#fff; border-color:#fff;
-}
-.navbar.my-navbar .btn-outline-secondary:hover{ background:rgba(255,255,255,.15); }
-.navbar.my-navbar .btn-outline-danger:hover{ background:rgba(255,0,0,.15); }
-
-/* ページ全体 */
-body{
-  margin:0;
-  font-family:'Segoe UI','Hiragino Kaku Gothic ProN','メイリオ',sans-serif;
-  background:#fffefc;
-  color:#333;
-}
-main{ padding:40px 20px; }
-@media (max-width:768px){ main{ padding:30px 15px; } }
+@import url("base.css");
 
 body.signup-page{
   --bg:#f5f6f7;
@@ -157,6 +96,3 @@ body.signup-page .signup-submit:active{ transform: translateY(1px); }
   body.signup-page .signup-card{ padding:18px; }
   body.signup-page .signup-form{ gap:14px; }
 }
-
-
-
