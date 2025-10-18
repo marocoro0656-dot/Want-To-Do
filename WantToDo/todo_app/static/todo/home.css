@@ -254,3 +254,69 @@ dialog::backdrop{ background: rgba(0,0,0,.35); }
 .modal-actions .btn-no:hover{ background:#c0392b; }
 .modal-actions .btn-no:active{ transform: translateY(1px); }
 
+/* ===== カードレイアウト ===== */
+.signup-card {
+  max-width: 860px;
+  margin: 40px auto;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 24px;
+}
+
+/* ===== フォーム中央寄せ ===== */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+/* ===== 各入力ラベル ===== */
+.signup-label {
+  font-weight: 700;
+  text-align: center;
+  margin: 6px 0 4px;
+}
+
+/* ===== 入力フィールド ===== */
+.signup-form input,
+.signup-form select,
+.signup-form textarea {
+  width: clamp(260px, 46vw, 420px);
+  height: 42px;
+  padding: 8px 12px;
+  border: 1px solid #d7dbe2;
+  border-radius: 6px;
+  outline: none;
+  transition: box-shadow .15s, border-color .15s;
+  background: #fff;
+}
+
+.signup-form input:focus,
+.signup-form select:focus,
+.signup-form textarea:focus {
+  border-color: #9bb3ff;
+  box-shadow: 0 0 0 3px rgba(130, 160, 255, 0.25);
+}
+
+/* ===== 登録ボタン ===== */
+.signup-submit {
+  width: clamp(260px, 46vw, 420px);
+  height: 44px;
+  border: none;
+  border-radius: 8px;
+  background: #38a24b;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s, transform .02s;
+}
+
+.signup-submit:hover {
+  background: #2f8b40;
+}
+
+.signup-submit:active {
+  transform: translateY(1px);
+}
