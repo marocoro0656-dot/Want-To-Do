@@ -1,6 +1,6 @@
 import re
 from django import forms
-from django.contrib.auth.forms import UserCreationForm,PasswordChangeForm 
+from django.contrib.auth.forms import UserCreationForm,PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
@@ -12,29 +12,34 @@ PASSWORD_RE = re.compile(
 def validate_password_policy(pw: str):
     if not PASSWORD_RE.match(pw or ''):
         raise ValidationError(
-            'パスワードは8〜24文字、英字・数字・記号(! _ % @ # $ &)を各1文字以上含めてください。'
+            'パスワードは半角英数字含む8文字以上、記号(! _ % @ # $ &)を1文字以上含めてください。'
         )
 
+#パスワード変更
 class CustomPasswordChangeForm(PasswordChangeForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # 全フィールドにクラスを付与
         for f in self.fields.values():
             f.widget.attrs.update({'class': 'signup-input'})
-    """パスワード変更でも独自ポリシーを適用"""
+
+    def clean_new_password1(self):
+        new_password1 = self.cleaned_data.get('new_password1')
+        old_password = self.cleaned_data.get('old_password')
+
+        # 新旧が同じ場合にエラー
+        if new_password1 and old_password and new_password1 == old_password:
+            raise ValidationError("現在のパスワードと同じです。別のパスワードを設定してください。")
+
+        return new_password1
+
     def clean(self):
-        """
-        親の clean() を呼ぶことで：
-        - 旧パスワードチェック
-        - new_password1 / new_password2 の一致チェック
-        - settings の AUTH_PASSWORD_VALIDATORS の適用
-        を実施。その上で“独自ポリシー”を追加チェック。
-        """
-        cleaned = super().clean()
-        pw2 = cleaned.get('new_password2')
-        if pw2:
-            validate_password_policy(pw2)
-        return cleaned
+        cleaned_data = super().clean()
+        new_password2 = cleaned_data.get('new_password2')
+        if new_password2:
+            validate_password_policy(new_password2)
+        return cleaned_data
+
 
 
 
@@ -76,3 +81,18 @@ class LoginForm(forms.Form):
     password = forms.CharField(
         label='パスワード', widget=forms.PasswordInput
     )
+
+#メールアドレス変更
+class EmailChangeForm(forms.Form):
+    email = forms.EmailField(label='新しいメールアドレス')
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)  # request.user を受け取る
+        super().__init__(*args, **kwargs)
+
+    def clean_email(self):
+        new_email = self.cleaned_data['email']
+        if self.user and new_email == self.user.email:
+            raise ValidationError("現在のメールアドレスと同じです。別のメールアドレスを入力してください。")
+        return new_email
+

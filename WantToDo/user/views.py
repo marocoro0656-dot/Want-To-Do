@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordChangeView
 
-from .forms import SignUpForm, LoginForm, CustomPasswordChangeForm
+from .forms import SignUpForm, LoginForm, CustomPasswordChangeForm, EmailChangeForm
 
 
 
@@ -56,31 +56,30 @@ def login_view(request):
     else:
         form = LoginForm()
     return render(request, 'user/login.html', {'login_form': form})
-    
-class EmailChangeForm(forms.Form):
-    email = forms.EmailField(label='新しいメールアドレス')
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['email'].widget.attrs.update({'class': 'signup-input'})
+
+
 
 
 @login_required
 def email_change(request):
     if request.method == 'POST':
-        form = EmailChangeForm(request.POST)
+        form = EmailChangeForm(request.POST,  user=request.user)
         if form.is_valid():
-            request.user.email = form.cleaned_data['email']
+            new_email = form.cleaned_data['email']
+            request.user.email = new_email
             request.user.save()
             messages.success(request, 'メールアドレスを更新しました。')
             return redirect('todo_app:home')
     else:
-        form = EmailChangeForm()
-        
+        form = EmailChangeForm(user=request.user)
+
     return render(request, 'user/email_change.html', {'form': form})
 
+
+
+
 #パスワード変更
-class MyPasswordChangeView(PasswordChangeView):
+class PasswordChangeViewCustom(PasswordChangeView):
     form_class = CustomPasswordChangeForm
     template_name = 'user/password_change.html'
     success_url = reverse_lazy('todo_app:home')  # ← 成功時はホームへ
