@@ -8,50 +8,51 @@
   <title>WantToDo</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'todo/base.css' %}">
   {% block extra_css %}{% endblock %}
 </head>
 
 <body class="{% block body_class %}{% endblock %}">
-  <!-- ナビバー -->
-  <nav class="navbar navbar-expand-lg border-bottom my-navbar sticky-top">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="{% url 'todo_app:home' %}">WantToDo</a>
+    <!-- ナビバー -->
+    <nav class="navbar navbar-expand-lg border-bottom my-navbar sticky-top">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="{% url 'todo_app:home' %}">WantToDo</a>
 
-      <div class="ms-auto d-flex align-items-center gap-2">
-        {% if user.is_authenticated %}
-          <!-- ★ 完了済み一覧（URL未設定なら # で仮置き） -->
-          <a class="btn btn-outline-secondary btn-sm" href="{% url 'todo_app:done_list' %}">
-            ★
-          </a>
+        <div class="ms-auto d-flex align-items-center gap-3">
+          {% if user.is_authenticated %}
+            <!-- ⭐ 完了済み一覧：-->
+            <a class="btn btn-link btn-sm text-white fs-5" href="{% url 'todo_app:done_list' %}" title="完了済みWantToDo一覧">
+              <i class="bi bi-star-fill"></i>
+            </a>
 
-          <!-- ⚙ アカウント（ドロップダウン） -->
-          <div class="dropdown">
-            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              アカウント
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li>
-                <a class="dropdown-item" href="{% url 'user:email_change' %}">メールアドレス変更</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="{% url 'user:password_change' %}">パスワード変更</a>
-              </li>
-            </ul>
-          </div>
+            <!-- 👤 アカウントメニュー：-->
+            <div class="dropdown">
+              <button class="btn btn-link btn-sm text-white fs-5 dropdown-toggle" type="button"
+                      data-bs-toggle="dropdown" aria-expanded="false" title="アカウント">
+                <i class="bi bi-person-circle"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="{% url 'user:email_change' %}">メールアドレス変更</a></li>
+                <li><a class="dropdown-item" href="{% url 'user:password_change' %}">パスワード変更</a></li>
+              </ul>
+            </div>
 
-          <!-- ⎋ ログアウト（POST推奨） -->
-          <form action="{% url 'user:logout' %}" method="post" class="d-inline">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-outline-danger btn-sm">ログアウト</button>
-          </form>
-        {% else %}
-          <a class="btn btn-primary btn-sm" href="{% url 'user:login' %}">ログイン</a>
-          <a class="btn btn-outline-primary btn-sm" href="{% url 'user:regist' %}">新規登録</a>
-        {% endif %}
+            <!-- ⎋ ログアウト -->
+            <form action="{% url 'user:logout' %}" method="post" class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-link btn-sm text-white fs-5" title="ログアウト">
+                <i class="bi bi-box-arrow-right"></i>
+              </button>
+            </form>
+
+          {% else %}
+            <a class="btn btn-primary btn-sm" href="{% url 'user:login' %}">ログイン</a>
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'user:regist' %}">新規登録</a>
+          {% endif %}
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
   <!-- フラッシュメッセージ -->
   {% if messages %}

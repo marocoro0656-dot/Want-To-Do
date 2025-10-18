@@ -9,7 +9,7 @@
 
     {% if wants %}
       <ul class="todo-list">
-        {% for w in wants %}
+        {% for w in page_obj.object_list %}
           <li class="todo-item {{ w.difficulty|diff_row_class }}">
             <div class="todo-main">
               {# 行全体をクリックで詳細へ #}
@@ -39,11 +39,37 @@
         {% endfor %}
       </ul>
 
-      {# ページネーション（略） #}
+      {% if page_obj.has_other_pages %}
+        <nav aria-label="Page navigation" class="mt-4">
+          <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+              <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+              </li>
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      {% endif %}
     {% else %}
       <p class="signup-help" style="text-align:center">未完了の WantToDo はありません。</p>
     {% endif %}
-  
+
 
   <div class="bottom-button">
     <a href="{% url 'todo_app:add_want' %}" class="btn btn-gray">新たなWantToDoを追加</a>
