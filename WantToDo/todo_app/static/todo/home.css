@@ -320,3 +320,21 @@ dialog::backdrop{ background: rgba(0,0,0,.35); }
 .signup-submit:active {
   transform: translateY(1px);
 }
+
+/* ===== 詳細画面表示の枠 ===== */
+.info-box {
+  width: clamp(260px, 46vw, 420px); /* ← 入力欄と同じ横幅 */
+  min-height: 42px;                 /* ← 入力欄の高さと揃える */
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #f9f9f9;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: pre-wrap;
+  word-break: break-word;
+  text-align: center;               /* ← 中央寄せ */
+  margin: 0 auto;                   /* ← 左寄りを防ぐため中央配置 */
+}

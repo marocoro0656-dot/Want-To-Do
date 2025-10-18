@@ -4,6 +4,8 @@
 <link rel="stylesheet" href="{% static 'todo/home.css' %}">
 <style>
   /* ==== モーダル共通スタイル ==== */
+
+
   dialog {
     border: none;
     border-radius: 12px;
@@ -63,17 +65,17 @@
 
           <div class="mb-3">
             <div class="signup-label">タイトル</div>
-            <div class="fw-bold">{{ w.title }}</div>
+            <div class="info-box">{{ w.title }}</div>
           </div>
 
           <div class="mb-3">
             <div class="signup-label">期限</div>
-            <div>{% if w.deadline %}{{ w.deadline }}{% else %}期限未設定{% endif %}</div>
+            <div class="info-box">{% if w.deadline %}{{ w.deadline }}{% else %}期限未設定{% endif %}</div>
           </div>
 
           <div class="mb-3">
             <div class="signup-label">カテゴリ</div>
-            <div>{% if w.category %}{{ w.get_category_display }}{% else %}-{% endif %}</div>
+            <div class="info-box">{% if w.category %}{{ w.get_category_display }}{% else %}{% endif %}</div>
           </div>
 
           <div class="mb-3">
@@ -89,7 +91,7 @@
 
           <div class="mb-3">
             <div class="signup-label">メモ</div>
-            <div style="white-space:pre-wrap;">{% if w.memo %}{{ w.memo }}{% else %}-{% endif %}</div>
+            <div class="info-box">{% if w.memo %}{{ w.memo }}{% else %}-{% endif %}</div>
           </div>
 
           <div class="action-bar" style="margin-top:20px;">
