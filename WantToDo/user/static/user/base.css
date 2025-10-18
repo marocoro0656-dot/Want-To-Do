@@ -1,38 +1,37 @@
-body {
-    margin: 0;
-    font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'メイリオ', sans-serif;
-    background-color: #fffefc; /* やわらかい背景色 */
-    color: #333;
+/* ナビ全体（色・影） */
+.navbar.my-navbar{
+  background:#1b9aea !important;
+  box-shadow:0 2px 4px rgba(0,0,0,.05);
+  border-bottom:2px solid #f0f0f0;
 }
 
-/* ヘッダー部分 */
-.site-header {
-    background-color: #1b9aea;
-    border-bottom: 2px solid #f0f0f0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    padding: 10px 20px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
 
-/* ロゴ部分 */
-.logo h1 {
-    font-size: 1.6rem;
-    margin: 0;
-    font-weight: 700;
-    letter-spacing: 0.03em;
+/* 左上ロゴ */
+.navbar.my-navbar .navbar-brand{
+  color:#fff !important;
+  font-weight:700;
+  letter-spacing:.03em;
 }
+.navbar.my-navbar .navbar-brand:hover{ color:#e6f4ff !important; }
 
-/* ロゴリンク（aタグ） */
-.logo a {
-    color: #ffffff;
-    text-decoration: none;
-    transition: color 0.2s ease;
+.navbar.my-navbar .navbar-brand {
+  font-size: 1.6rem;              /* 固定サイズ */
+  font-family:'Segoe UI','Hiragino Kaku Gothic ProN','メイリオ',sans-serif;
+  color:#fff !important;
+  font-weight:700;
+  letter-spacing:.03em;
 }
 
 .logo a:hover {
     color: #023e8a; /* ホバー時に少し濃い色 */
+}
+
+/* ページ全体 */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'メイリオ', sans-serif;
+    background-color: #fffefc;
+    color: #333;
 }
 
 /* メインコンテンツ用余白 */

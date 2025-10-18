@@ -43,7 +43,7 @@
   <br>
 
   <div class="todo-preview">
-    
+
   {% if upcoming %}
     <ul class="todo-list">
       {% for w in upcoming %}
@@ -82,14 +82,18 @@
       {% endfor %}
     </ul>
   {% else %}
-    <p class="signup-help" style="text-align:center">該当する未完了のWantToDoはありません。</p>
+    {% if request.GET %}
+        <p class="alert alert-warning text-center">該当するWantToDoは見つかりませんでした。</p>
+    {% else %}
+        <p class="signup-help" style="text-align:center">未完了のWantToDoはまだありません。</p>
+    {% endif %}
   {% endif %}
   </div>
 
   <div class="bottom-button">
   <a href="{% url 'todo_app:incomplete_list' %}" class="btn btn-secondary">未完了WantToDo一覧へ</a>
   </div>
-  
+
 </div>
 
 {% endblock %}
