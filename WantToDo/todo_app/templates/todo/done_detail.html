@@ -3,9 +3,12 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'todo/home.css' %}">
 <style>
-  /* ==== モーダル共通スタイル ==== */
+  /* 難易度バッジ中央揃え（詳細画面のみ） */
+  .difficulty-wrapper {
+    text-align: center;
+  }
 
-
+  /* モーダル共通スタイル */
   dialog {
     border: none;
     border-radius: 12px;
@@ -14,11 +17,11 @@
     max-width: 420px;
     width: 92%;
   }
+
   dialog::backdrop {
     background: rgba(0,0,0,.35);
   }
 
-  /* ボタン配置 */
   .modal-actions {
     display: flex;
     justify-content: center;
@@ -26,7 +29,6 @@
     margin-top: 16px;
   }
 
-  /* ==== ボタン統一デザイン ==== */
   .modal-actions button {
     min-width: 120px;
     height: 44px;
@@ -37,7 +39,6 @@
     transition: background .15s, transform .02s;
   }
 
-  /* 「はい」＝緑 */
   .btn-yes {
     background: #38a24b;
     color: #fff;
@@ -45,7 +46,6 @@
   .btn-yes:hover { background: #2f8b40; }
   .btn-yes:active { transform: translateY(1px); }
 
-  /* 「いいえ」＝赤 */
   .btn-no {
     background: #e74c3c;
     color: #fff;
@@ -56,88 +56,81 @@
 {% endblock %}
 
 {% block content %}
-  <div class="filter-box no-frame">
-    <h3 style="text-align:center; margin-bottom:16px;">完了済みWantToDo詳細</h3>
+<h3 style="text-align:center; margin-bottom:16px;">完了済みWantToDo詳細</h3>
 
-    <ul class="todo-list is-detail">
-      <li class="todo-item">
-        <div class="todo-main">
+<section class="signup-card">
+  <div class="signup-form">
+    <div>
+      <div class="signup-label">タイトル</div>
+      <div class="info-box">{{ w.title }}</div>
+    </div>
 
-          <div class="mb-3">
-            <div class="signup-label">タイトル</div>
-            <div class="info-box">{{ w.title }}</div>
-          </div>
+    <div>
+      <div class="signup-label">期限</div>
+      <div class="info-box">{% if w.deadline %}{{ w.deadline }}{% else %}期限未設定{% endif %}</div>
+    </div>
 
-          <div class="mb-3">
-            <div class="signup-label">期限</div>
-            <div class="info-box">{% if w.deadline %}{{ w.deadline }}{% else %}期限未設定{% endif %}</div>
-          </div>
+    <div>
+      <div class="signup-label">カテゴリ</div>
+      <div class="info-box">{% if w.category %}{{ w.get_category_display }}{% else %}-{% endif %}</div>
+    </div>
 
-          <div class="mb-3">
-            <div class="signup-label">カテゴリ</div>
-            <div class="info-box">{% if w.category %}{{ w.get_category_display }}{% else %}{% endif %}</div>
-          </div>
+    <div>
+      <div class="signup-label">難易度</div>
+      <div class="difficulty-wrapper">
+        <span class="badge-diff 
+          {% if w.difficulty == 'high' %}high{% elif w.difficulty == 'medium' %}medium{% else %}low{% endif %}">
+          {{ w.get_difficulty_display }}
+        </span>
+      </div>
+    </div>
 
-          <div class="mb-3">
-            <div class="signup-label">難易度</div>
-            <div>
-              <span class="badge-diff
-                {% if w.difficulty == 'high' %}high
-                {% elif w.difficulty == 'medium' %}medium
-                {% else %}low{% endif %}
-              ">{{ w.get_difficulty_display }}</span>
-            </div>
-          </div>
+    <div>
+      <div class="signup-label">メモ</div>
+      <div class="info-box">{% if w.memo %}{{ w.memo }}{% else %}-{% endif %}</div>
+    </div>
 
-          <div class="mb-3">
-            <div class="signup-label">メモ</div>
-            <div class="info-box">{% if w.memo %}{{ w.memo }}{% else %}-{% endif %}</div>
-          </div>
+    <div class="action-bar" style="margin-top: 20px;">
+      <!-- 未完了に戻す -->
+      <button type="button" class="btn-complete" onclick="document.getElementById('revertModal').showModal()">
+        未完了に戻す
+      </button>
 
-          <div class="action-bar" style="margin-top:20px;">
-            <!-- 未完了に戻す（モーダル起動） -->
-            <button type="button" class="btn-complete" onclick="document.getElementById('revertModal').showModal()">
-              未完了に戻す
-            </button>
+      <!-- 削除 -->
+      <button type="button" class="btn-delete" onclick="document.getElementById('deleteModal').showModal()">
+        削除
+      </button>
+    </div>
 
-            <!-- 削除（モーダル起動） -->
-            <button type="button" class="btn-delete" onclick="document.getElementById('deleteModal').showModal()">
-              削除
-            </button>
-          </div>
-
-          <!-- revert モーダル -->
-          <dialog id="revertModal">
-            <p style="text-align:center; font-weight:700; margin:0 0 8px;">未完了に戻しますか？</p>
-            <form method="post" action="{% url 'todo_app:revert_want' w.id %}">
-              {% csrf_token %}
-              <input type="hidden" name="next" value="{% url 'todo_app:done_list' %}">
-              <div class="modal-actions">
-                <button type="submit" class="btn-yes">はい</button>
-                <button type="button" class="btn-no" onclick="document.getElementById('revertModal').close()">いいえ</button>
-              </div>
-            </form>
-          </dialog>
-
-          <!-- delete モーダル -->
-          <dialog id="deleteModal">
-            <p style="text-align:center; font-weight:700; margin:0 0 8px;">本当に削除しますか？</p>
-            <form method="post" action="{% url 'todo_app:delete_want' w.id %}">
-              {% csrf_token %}
-              <input type="hidden" name="next" value="{% url 'todo_app:done_list' %}">
-              <div class="modal-actions">
-                <button type="submit" class="btn-yes">はい</button>
-                <button type="button" class="btn-no" onclick="document.getElementById('deleteModal').close()">いいえ</button>
-              </div>
-            </form>
-          </dialog>
-
+    <!-- 未完了に戻すモーダル -->
+    <dialog id="revertModal">
+      <p style="text-align:center; font-weight:700; margin-bottom:8px;">未完了に戻しますか？</p>
+      <form method="post" action="{% url 'todo_app:revert_want' w.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{% url 'todo_app:done_list' %}">
+        <div class="modal-actions">
+          <button type="submit" class="btn-yes">はい</button>
+          <button type="button" class="btn-no" onclick="document.getElementById('revertModal').close()">いいえ</button>
         </div>
-      </li>
-    </ul>
-  </div>
+      </form>
+    </dialog>
 
-  <div class="bottom-button">
-    <a href="{% url 'todo_app:done_list' %}" class="btn btn-gray">完了済み一覧へ</a>
+    <!-- 削除モーダル -->
+    <dialog id="deleteModal">
+      <p style="text-align:center; font-weight:700; margin-bottom:8px;">本当に削除しますか？</p>
+      <form method="post" action="{% url 'todo_app:delete_want' w.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{% url 'todo_app:done_list' %}">
+        <div class="modal-actions">
+          <button type="submit" class="btn-yes">はい</button>
+          <button type="button" class="btn-no" onclick="document.getElementById('deleteModal').close()">いいえ</button>
+        </div>
+      </form>
+    </dialog>
   </div>
+</section>
+
+<div class="bottom-button">
+  <a href="{% url 'todo_app:done_list' %}" class="btn btn-gray">完了済み一覧へ</a>
+</div>
 {% endblock %}

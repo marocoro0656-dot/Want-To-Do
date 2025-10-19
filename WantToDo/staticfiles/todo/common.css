@@ -4,7 +4,7 @@
   padding: 2px 8px;
   border-radius: 999px;
   font-size: .8rem;
-  margin-left: 6px;
+
 }
 .badge-diff.high {
   background: #e74c3c;
@@ -39,7 +39,7 @@
   transition: background 0.15s;
 }
 
-/* ホバー時に少し濃くなる（任意） */
+/* ホバー時に少し濃くなる */
 .todo-list li:hover {
   filter: brightness(0.97);
 }

@@ -24,15 +24,16 @@ def home(request):
 
 @login_required
 def home(request):
-    # フィルタフォーム（GET）
     form = FilterForm(request.GET or None)
 
     qs = Want.objects.filter(user=request.user, done=False)  # 未完のみ
+
+    # 検索条件があれば適用（= フィルタ中）
     if form.is_valid():
         category   = form.cleaned_data.get('category')
         difficulty = form.cleaned_data.get('difficulty')
-        start_date = form.cleaned_data.get('start_date')  # 期限の下限
-        end_date   = form.cleaned_data.get('end_date')    # 期限の上限
+        start_date = form.cleaned_data.get('start_date')
+        end_date   = form.cleaned_data.get('end_date')
 
         if category:
             qs = qs.filter(category=category)
@@ -43,8 +44,12 @@ def home(request):
         if end_date:
             qs = qs.filter(deadline__lte=end_date)
 
-    # 期限が近い順に4件（未完のみ）
-    upcoming = qs.order_by('deadline', '-updated_at')[:4]
+        # 検索結果はすべて表示（期限昇順）
+        upcoming = qs.order_by('deadline', '-updated_at')
+
+    else:
+        # 初期表示は4件まで
+        upcoming = qs.order_by('deadline', '-updated_at')[:4]
 
     return render(request, 'todo/home.html', {
         'form': form,
@@ -100,7 +105,7 @@ def done_list(request):
         'wants': page_obj.object_list,
         'page_obj': page_obj,
     })
-    
+
 @login_required
 def want_detail(request, pk):
     done=False

@@ -81,7 +81,7 @@
 .todo-list.is-detail .todo-main{ align-items:center; text-align:center; }
 
 /* 難易度バッジ */
-.badge-diff{ display:inline-block; padding:2px 8px; border-radius:999px; font-size:.8rem; margin-right:6px; }
+.badge-diff{ display:inline-block; padding:2px 8px; border-radius:999px; font-size:.8rem; }
 .badge-diff.high{ background:#e74c3c; color:#fff; }
 .badge-diff.medium{ background:#f1c40f; color:#333; }
 .badge-diff.low{ background:#3498db; color:#fff; }
@@ -381,4 +381,38 @@ dialog::backdrop{ background: rgba(0,0,0,.35); }
   .todo-main {
     gap: 2px;
   }
+}
+
+/* 詳細ページ修正 */
+/* デフォルト（全体）では左寄せに戻す */
+.badge-diff {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: .8rem;
+  text-align: left;
+}
+
+/* 詳細画面（中央寄せに上書き） */
+.todo-list.is-detail .badge-diff {
+  margin-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-flex;
+  justify-content: center;
+  text-align: center;
+}
+
+
+/* 編集ボタンを詳細カード右上に固定 */
+.todo-item.editable {
+  position: relative;
+}
+.todo-item.editable .edit-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  font-size: 0.9rem;
+  padding: 8px 14px;
 }
