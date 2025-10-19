@@ -416,3 +416,54 @@ dialog::backdrop{ background: rgba(0,0,0,.35); }
   font-size: 0.9rem;
   padding: 8px 14px;
 }
+
+/* スマホビューでだけ中央寄せにする */
+@media screen and (max-width: 768px) {
+  /* タイトル中央揃え */
+  .todo-title {
+    text-align: center;
+    justify-content: center;
+    display: flex;
+  }
+
+  /* 完了ボタン中央揃え */
+  .todo-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .todo-actions .btn-complete {
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .todo-sub {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;  /* 適度な余白を追加 */
+    text-align: center;
+  }
+
+  .badge-diff {
+    margin-left: 0;   /* 横寄せを解除 */
+  }
+
+  .todo-deadline,
+  .todo-cat {
+    display: block;
+  }
+}
+
+
+
+  /* メモ：中央揃え＆改行 */
+  .todo-memo {
+    display: block;
+    text-align: center;
+    margin-top: 8px;
+  }
+}
+
