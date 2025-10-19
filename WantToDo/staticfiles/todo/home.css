@@ -323,8 +323,8 @@ dialog::backdrop{ background: rgba(0,0,0,.35); }
 
 /* ===== 詳細画面表示の枠 ===== */
 .info-box {
-  width: clamp(260px, 46vw, 420px); /* ← 入力欄と同じ横幅 */
-  min-height: 42px;                 /* ← 入力欄の高さと揃える */
+  width: clamp(260px, 46vw, 420px); /* 入力欄と同じ横幅 */
+  min-height: 42px;
   padding: 8px 12px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -335,6 +335,50 @@ dialog::backdrop{ background: rgba(0,0,0,.35); }
   justify-content: center;
   white-space: pre-wrap;
   word-break: break-word;
-  text-align: center;               /* ← 中央寄せ */
-  margin: 0 auto;                   /* ← 左寄りを防ぐため中央配置 */
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* ===== スマホ最適化（480px以下） ===== */
+@media (max-width: 480px) {
+
+  /* 期間指定の欄を縦並びに */
+  .period-range {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  /* 完了／削除ボタンの幅を縮小 */
+  .btn-complete,
+  .btn-delete {
+    min-width: 100px;
+    font-size: 0.9rem;
+    padding: 0 10px;
+  }
+
+  /* 各todo行を縦並びにして詰めすぎ防止 */
+  .todo-item {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+  }
+
+  .todo-actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+
+  /* 詳細画面は左寄せで自然に表示 */
+  .todo-list.is-detail .todo-main {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  /* 行間少し詰める */
+  .todo-main {
+    gap: 2px;
+  }
 }
