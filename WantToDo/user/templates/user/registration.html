@@ -48,6 +48,14 @@
     {% endfor %}
 
     <button class="signup-submit" type="submit">登録</button>
+
+      <div class="signup-help" style="text-align:center; margin-top:10px;">
+        <a href="{% url 'user:login' %}">ログイン</a>
+
+      </div>
+
   </form>
+
+
 </section>
 {% endblock %}

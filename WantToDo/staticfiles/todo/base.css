@@ -126,6 +126,14 @@ body.signup-page .signup-input:focus{
   box-shadow: 0 0 0 3px rgba(130,160,255,.25);
 }
 
+/* ===== メモ欄の大きさを修正 ===== */
+body.signup-page textarea.signup-input {
+  height: auto;
+  min-height: 132px;   /* 6行相当（22px × 6） */
+  max-height: 132px;   /* 上限も固定する */
+  resize: none;        /* ユーザーのリサイズ無効 */
+  line-height: 1.5;
+}
 
 
 /* 注意書き */
@@ -133,9 +141,10 @@ body.signup-page .signup-help{
   width: clamp(260px, 46vw, 420px);
   margin-top: -6px;
   font-size: 12px;
-  color: var(--muted);
+  color: #d33;
   text-align: left;
 }
+
 
 /* 登録ボタン */
 body.signup-page .signup-submit{
@@ -159,4 +168,25 @@ body.signup-page .signup-submit:active{ transform: translateY(1px); }
 }
 
 
+/* Djangoデフォルトのエラー出力に対応（赤） */
+.errorlist {
+  color: #d33;
+  margin: 4px 0;
+  list-style: none;
+  padding-left: 0;
+  font-size: 13px;
+  text-align: center;
+  font-weight: 600;
+}
 
+/* Djangoメッセージのうちエラーだけ赤 */
+.alert.alert-error {
+  color: #d33;
+  background: #ffe6e6;
+  border: 1px solid #e0b4b4;
+  padding: 10px 14px;
+  border-radius: 6px;
+  text-align: center;
+  margin-bottom: 16px;
+  font-weight: 600;
+}

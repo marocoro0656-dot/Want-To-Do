@@ -58,7 +58,7 @@ class WantForm(forms.ModelForm):
 
         self.fields['memo'].required = False
         self.fields['memo'].widget = forms.Textarea(attrs={
-            'rows': 3,
+            'rows': 6,
             'maxlength': 120,
             'placeholder': '120文字以内でメモを残せます'
         })
