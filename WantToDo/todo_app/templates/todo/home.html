@@ -9,6 +9,15 @@
 {% block content %}
 <div class="filter-box">
   <form method="get" class="filter-form">
+
+    {% if form.non_field_errors %}
+      <ul class="errorlist">
+        {% for error in form.non_field_errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
     <div class="filter-row">
       <div class="filter-field">
         <div class="filter-label">カテゴリ</div>

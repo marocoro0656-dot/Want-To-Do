@@ -37,6 +37,16 @@ class FilterForm(forms.Form):
         widget=forms.DateInput(attrs={'type': 'date', 'class': 'filter-date'})
     )
 
+    def clean(self):
+        cleaned_data = super().clean()
+        start_date = cleaned_data.get('start_date')
+        end_date = cleaned_data.get('end_date')
+
+        if start_date and end_date and end_date < start_date:
+            raise forms.ValidationError('終了日は開始日以降の日付を選択してください。')
+
+        return cleaned_data
+
 
 class WantForm(forms.ModelForm):
     class Meta:
