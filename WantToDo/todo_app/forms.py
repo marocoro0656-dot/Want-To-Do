@@ -21,12 +21,12 @@ class FilterForm(forms.Form):
     category = forms.ChoiceField(
         choices=CATEGORY_BLANK + Want.CATEGORY_CHOICES,
         required=False, label='カテゴリ',
-        widget=forms.Select(attrs={'class': 'filter-select'})
+        widget=forms.Select(attrs={'class': 'filter-select',})
     )
     difficulty = forms.ChoiceField(
-        choices=DIFFICULTY_BLANK + Want.DIFFICULTY_CHOICES,
+        choices=CATEGORY_BLANK + Want.DIFFICULTY_CHOICES,
         required=False, label='難易度',
-        widget=forms.Select(attrs={'class': 'filter-select'})
+        widget=forms.Select(attrs={'class': 'filter-select',})
     )
     start_date = forms.DateField(
         required=False, label='開始日',

@@ -427,55 +427,116 @@ dialog::backdrop{ background: rgba(0,0,0,.35); }
   padding: 8px 14px;
 }
 
-/* スマホビューでだけ中央寄せにする */
+
+
+/* スマホビュー設定 */
 @media screen and (max-width: 768px) {
-  /* タイトル中央揃え */
-  .todo-title {
-    text-align: center;
-    justify-content: center;
+
+  /* ===== カード全体 ===== */
+  .todo-item {
+    position: relative;
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 84px 14px 16px; /* ボタン分の余白を右に確保 */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #fff; /* ✅ 常に白背景を指定（透明化対策） */
+    margin: 0 auto 14px;
+    width: 95%;
+    max-width: 700px;
+    box-sizing: border-box;
   }
 
-  /* 完了ボタン中央揃え */
-  .todo-actions {
+  /* ===== タイトル（左寄せ） ===== */
+  .todo-title {
+    text-align: left;
+    justify-content: flex-start;
     display: flex;
-    justify-content: center;
-    margin-top: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    word-break: break-word;
+  }
+
+  /* ===== 期限とカテゴリ（横並び・左寄せ） ===== */
+  .todo-sub {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+    text-align: left;
+    width: 100%;
+    margin-bottom: 4px;
+  }
+
+  /* ✅ 難易度バッジを非表示 */
+  .badge-diff {
+    display: none !important;
+  }
+
+  .todo-deadline {
+    white-space: nowrap;
+    color: #333;
+  }
+
+  .todo-cat {
+    display: inline-block;
+    font-size: 0.95rem;
+    color: #555;
+  }
+
+  /* 完了ボタン：右端固定＆同じ緑トーン */
+  .todo-actions {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
   }
 
   .todo-actions .btn-complete {
-    margin: 0 auto;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .todo-sub {
+    min-width: 54px;
+    height: 32px;
+    padding: 2px 8px;
+    font-size: 0.85rem;
+    line-height: 1.2;
+    border-radius: 6px;
+    border: none;
+    background: #38a24b;   /* ✅ 通常時：明るい緑 */
+    color: #fff;           /* ✅ 白文字 */
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 6px;  /* 適度な余白を追加 */
-    text-align: center;
+    justify-content: center;
+    white-space: nowrap;
+    transition: background 0.15s, transform 0.02s;
   }
 
-  .badge-diff {
-    margin-left: 0;   /* 横寄せを解除 */
+  /* ✅ hover時：少し濃く */
+  .todo-actions .btn-complete:hover {
+    background: #2f8b40;
   }
 
-  .todo-deadline,
-  .todo-cat {
-    display: block;
+  /* ✅ 押した瞬間：下に1px動かす */
+  .todo-actions .btn-complete:active {
+    transform: translateY(1px);
   }
 }
 
-
-
-  /* メモ：中央揃え＆改行 */
+  /* ===== メモは非表示 ===== */
   .todo-memo {
-    display: block;
-    text-align: center;
-    margin-top: 8px;
+    display: none !important;
+  }
+
+  /* stretched-link がボタンに被らないように調整 */
+  .todo-item .stretched-link {
+    position: static;
   }
 }
+
+
+
 
 /* ==== フォームのエラーを赤く表示 ==== */
 .errorlist {

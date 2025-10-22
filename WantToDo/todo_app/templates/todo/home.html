@@ -4,11 +4,161 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'todo/home.css' %}">
+
+<style>
+/* ==== 外枠・全体レイアウト ==== */
+.todo-preview {
+  max-width: 900px;
+  margin: 0 auto 24px;
+  padding: 0 12px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* ==== ul.todo-list の中央寄せ ==== */
+.todo-preview .todo-list {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ==== 各カード（li.todo-item） ==== */
+.todo-preview .todo-item {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.05);
+  padding: 14px 16px;
+  margin: 10px 0;
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* ==== 難易度バッジ ==== */
+.todo-preview .badge-diff.high { background:#e74c3c; color:#fff; }
+.todo-preview .badge-diff.medium { background:#f1c40f; color:#333; }
+.todo-preview .badge-diff.low { background:#3498db; color:#fff; }
+
+/* ==== 難易度ごとの行背景 ==== */
+.todo-preview .todo-item.row-high   { background: #fdecea !important; }
+.todo-preview .todo-item.row-medium { background: #fff8e1 !important; }
+.todo-preview .todo-item.row-low    { background: #e8f4fd !important; }
+
+/* ==== 通常の白背景を上書き防止 ==== */
+.todo-preview .todo-item {
+  background: inherit !important;
+}
+
+/* ==== 各カード内のテキスト ==== */
+.todo-preview .todo-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+  text-align: left;
+}
+.todo-preview .todo-sub {
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.todo-preview .todo-memo {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 6px;
+}
+
+/* ==== 完了ボタン（緑・上下中央） ==== */
+.todo-preview .btn-complete {
+  background: #38a24b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  height: 36px;              /* ✅ 高さ固定で中央化 */
+  line-height: 1;            /* ✅ ベースライン補正 */
+  display: flex;
+  align-items: center;       /* ✅ 垂直方向中央 */
+  justify-content: center;   /* ✅ 水平方向中央 */
+  padding: 6px 14px;
+  transition: background 0.15s, transform 0.02s;
+}
+.todo-preview .btn-complete:hover {
+  background: #2f8b40;
+}
+.todo-preview .btn-complete:active {
+  transform: translateY(1px);
+}
+
+/* ==== ボタンの位置：カード内中央 ==== */
+.todo-preview .todo-actions {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+}
+
+/* ================================
+   スマホビュー専用レイアウト調整
+   ================================ */
+@media screen and (max-width: 768px) {
+
+  /* ==== カード余白調整（ボタン分右側広く） ==== */
+  .todo-preview .todo-item {
+    padding: 14px 84px 14px 16px;
+  }
+
+  /* ==== 完了ボタンの上下中央位置を微調整 ==== */
+  .todo-preview .todo-actions {
+    top: 50%;
+    right: 12px;
+    transform: translateY(-52%); /* ✅ 少し上に補正 */
+  }
+
+  /* ==== スマホ用ボタンサイズ調整 ==== */
+  .todo-preview .btn-complete {
+    height: 32px;
+    padding: 4px 12px;
+  }
+
+  /* ==== カテゴリを必ず3行目に改行 ==== */
+  .todo-preview .todo-sub {
+    display: flex;
+    flex-direction: column;  /* ✅ 縦並び強制 */
+    align-items: flex-start;
+    gap: 4px;
+    text-align: left;
+  }
+
+  .todo-preview .todo-deadline {
+    display: block;          /* ✅ 2行目固定 */
+    white-space: nowrap;
+    color: #333;
+  }
+
+  .todo-preview .todo-cat {
+    display: block;          /* ✅ 3行目固定 */
+    margin-top: 2px;
+    color: #555;
+  }
+}
+</style>
 {% endblock %}
 
 {% block content %}
 <div class="filter-box">
-  <form method="get" class="filter-form">
+  <form method="get" class="filter-form" style="max-width:900px;">
 
     {% if form.non_field_errors %}
       <ul class="errorlist">

@@ -78,7 +78,7 @@
     <div>
       <div class="signup-label">難易度</div>
       <div class="difficulty-wrapper">
-        <span class="badge-diff 
+        <span class="badge-diff
           {% if w.difficulty == 'high' %}high{% elif w.difficulty == 'medium' %}medium{% else %}low{% endif %}">
           {{ w.get_difficulty_display }}
         </span>
@@ -130,7 +130,4 @@
   </div>
 </section>
 
-<div class="bottom-button">
-  <a href="{% url 'todo_app:done_list' %}" class="btn btn-gray">完了済み一覧へ</a>
-</div>
 {% endblock %}
