@@ -1,7 +1,86 @@
 {% extends 'todo/base.html' %}
 {% load static %}
 {% load todo_extras %}
-{% block extra_css %}<link rel="stylesheet" href="{% static 'todo/home.css' %}">{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'todo/home.css' %}">
+
+<style>
+/* done_list.html 専用：スマホ時のみ
+   1行目：タイトル
+   2行目：完了バッジ（単独）
+   3行目：カテゴリ */
+@media screen and (max-width: 768px) {
+
+  /* ===== カード全体 ===== */
+  .todo-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 16px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #fff;
+    margin: 0 auto 14px;
+    width: 95%;
+    max-width: 700px;
+    box-sizing: border-box;
+  }
+
+  /* ===== 1行目：タイトル ===== */
+  .todo-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: left;
+    margin-bottom: 4px;
+    word-break: break-word;
+    width: 100%;
+  }
+
+  /* ===== 2行目：完了バッジ（単独行） ===== */
+  .done-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start; /* ✅ 左寄せ配置 */
+    line-height: 1.1;
+    white-space: nowrap;
+    padding: 2px 8px;
+    font-size: 0.8rem;
+    border-radius: 999px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+    margin-bottom: 4px; /* タイトルとカテゴリの間に適度な余白 */
+  }
+
+  /* ===== 3行目：カテゴリ ===== */
+  .todo-cat {
+    display: block;
+    color: #555;
+    font-size: 0.95rem;
+  }
+
+  /* 難易度バッジは非表示 */
+  .badge-diff {
+    display: none !important;
+  }
+
+  /* 完了バッジを完全に左端に寄せる */
+  .done-badge {
+    margin-left: 0 !important;       /* ✅ 左余白を強制リセット */
+    padding-left: 6px !important;    /* ✅ 最小限の内側余白だけ確保 */
+  }
+
+  /* もし親が中央寄せ気味の場合に備えて */
+  .todo-main,
+  .todo-item {
+    align-items: flex-start !important; /* ✅ 左揃えを強制 */
+  }
+}
+</style>
+
+{% endblock %}
 
 {% block content %}
   <div class="filter-box" style="max-width:900px;">
@@ -18,6 +97,8 @@
 
               <div class="todo-title">
                 {{ w.title }}
+                </div>
+
                 <span class="done-badge">
                   {% if w.completed_at %}
                     {{ w.completed_at|date:"n/j" }} 完了
@@ -25,7 +106,7 @@
                     完了
                   {% endif %}
                 </span>
-              </div>
+
 
               <div class="todo-sub">
                 <span class="badge-diff
@@ -34,11 +115,6 @@
                   {% else %}low{% endif %}
                 ">{{ w.get_difficulty_display }}</span>
 
-                {% if w.deadline %}
-                  期限：{{ w.deadline }}
-                {% else %}
-                  期限未設定
-                {% endif %}
 
                 {% if w.category %}
                   <span class="todo-cat"> / {{ w.get_category_display }}</span>

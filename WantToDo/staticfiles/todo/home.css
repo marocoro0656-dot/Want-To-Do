@@ -472,8 +472,8 @@ dialog::backdrop{ background: rgba(0,0,0,.35); }
     margin-bottom: 4px;
   }
 
-  /* ✅ 難易度バッジを非表示 */
-  .badge-diff {
+  /* ✅ 一覧ページ（リスト表示）でのみ非表示 */
+  .todo-list:not(.is-detail) .badge-diff {
     display: none !important;
   }
 
