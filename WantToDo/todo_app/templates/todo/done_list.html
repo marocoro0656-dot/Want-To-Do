@@ -78,6 +78,86 @@
     align-items: flex-start !important; /* ✅ 左揃えを強制 */
   }
 }
+
+  /* ===== PC・タブレット時 (768px以上) ===== */
+@media screen and (min-width: 769px) {
+
+  /* ===== カード全体 ===== */
+  .todo-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 16px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #fff;
+    margin: 0 auto 14px;
+    width: 100%;
+    max-width: 700px;
+    box-sizing: border-box;
+  }
+
+  /* ===== 1行目：タイトル ===== */
+  .todo-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: left;
+    margin-bottom: 6px;
+    word-break: break-word;
+    width: 100%;
+  }
+
+  /* ===== 2行目：完了バッジ（独立flex行） ===== */
+  .done-row {
+    display: flex;
+    justify-content: flex-start;  /* ✅ 左寄せ（中央や右にしたければここで変更） */
+    align-items: center;
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  .done-row .done-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+    white-space: nowrap;
+    line-height: 1.1;
+  }
+
+  /* ===== 3行目：難易度＋カテゴリ ===== */
+  .todo-sub {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    text-align: left;
+  }
+
+  .badge-diff {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+  }
+  .badge-diff.high { background: #e74c3c; color: #fff; }
+  .badge-diff.medium { background: #f1c40f; color: #333; }
+  .badge-diff.low { background: #3498db; color: #fff; }
+
+  .todo-cat {
+    display: inline-block;
+    font-size: 0.95rem;
+    color: #555;
+  }
+}
 </style>
 
 {% endblock %}
@@ -99,6 +179,7 @@
                 {{ w.title }}
                 </div>
 
+              <div class="done-row">
                 <span class="done-badge">
                   {% if w.completed_at %}
                     {{ w.completed_at|date:"n/j" }} 完了
@@ -106,6 +187,7 @@
                     完了
                   {% endif %}
                 </span>
+              </div>
 
 
               <div class="todo-sub">

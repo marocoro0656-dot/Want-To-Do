@@ -52,3 +52,93 @@
 .todo-item .position-relative { position: relative; }
 .todo-item { position: relative; }
 
+
+/* PC・タブレット時（769px～） */
+@media screen and (min-width: 769px) {
+
+  /* タイトル・期限・カテゴリ・難易度バッジを縦並び左寄せ */
+  .todo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding: 14px 16px;
+    box-sizing: border-box;
+  }
+
+  /* タイトル */
+  .todo-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: left;
+    margin-bottom: 4px;
+    width: 100%;
+    word-break: break-word;
+  }
+
+  /* 2行目：期限 or 完了バッジ */
+  .todo-deadline,
+  .done-badge {
+    display: block;
+    text-align: left;
+    margin-bottom: 4px;
+  }
+
+  /* 3行目：難易度＋カテゴリ */
+  .todo-sub {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-align: left;
+    flex-wrap: wrap;
+  }
+
+  .badge-diff {
+    display: inline-block;
+  }
+
+  .todo-cat {
+    display: inline-block;
+    color: #555;
+  }
+}
+
+/* スマホ時（～768px） */
+@media screen and (max-width: 768px) {
+
+  .todo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding: 14px 16px;
+  }
+
+  .todo-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-align: left;
+    margin-bottom: 4px;
+    word-break: break-word;
+  }
+
+  /* 2行目：完了バッジまたは期限 */
+  .done-badge,
+  .todo-deadline {
+    display: block;
+    text-align: left;
+    margin-bottom: 4px;
+  }
+
+  /* 3行目：カテゴリのみ */
+  .todo-sub {
+    display: block;
+    text-align: left;
+    color: #555;
+  }
+
+  /* ✅ 難易度バッジは非表示（スマホ限定） */
+  .badge-diff {
+    display: none !important;
+  }
+}
