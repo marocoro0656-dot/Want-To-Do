@@ -190,3 +190,13 @@ body.signup-page .signup-submit:active{ transform: translateY(1px); }
   margin-bottom: 16px;
   font-weight: 600;
 }
+
+
+/* === アカウントアイコンの下線を消す === */
+.navbar .btn-link {
+  text-decoration: none !important;
+}
+.navbar .btn-link:hover,
+.navbar .btn-link:focus {
+  text-decoration: none !important;
+}
