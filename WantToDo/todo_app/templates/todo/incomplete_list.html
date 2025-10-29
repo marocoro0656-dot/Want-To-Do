@@ -160,6 +160,10 @@
 <div class="filter-box" style="max-width:900px;">
   <h3 style="text-align:center; margin-bottom:16px;">未完了のWantToDo</h3>
 
+  <div class="bottom-button">
+  <a href="{% url 'todo_app:add_want' %}" class="btn add-btn">新たなWantToDoを追加</a>
+</div>
+
   {% if wants %}
     <div class="todo-preview">
       <ul class="todo-list">
@@ -226,8 +230,5 @@
     <p class="signup-help" style="text-align:center">未完了の WantToDo はありません。</p>
   {% endif %}
 
-  <div class="bottom-button">
-    <a href="{% url 'todo_app:add_want' %}" class="btn btn-gray">新たなWantToDoを追加</a>
-  </div>
 </div>
 {% endblock %}

@@ -17,6 +17,12 @@ def validate_password_policy(pw: str):
 
 #パスワード変更
 class CustomPasswordChangeForm(PasswordChangeForm):
+
+    error_messages = {
+        **PasswordChangeForm.error_messages,
+        "password_incorrect": "現在のパスワードが正しくありません。もう一度入力してください。",
+    }
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # 全フィールドにクラスを付与
@@ -121,12 +127,20 @@ class EmailChangeForm(forms.Form):
     email = forms.EmailField(label='新しいメールアドレス')
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user', None)  # request.user を受け取る
+        self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
     def clean_email(self):
         new_email = self.cleaned_data['email']
+
+        # 現在のメールと同じ → エラー
         if self.user and new_email == self.user.email:
             raise ValidationError("現在のメールアドレスと同じです。別のメールアドレスを入力してください。")
+
+        # 🔽 他ユーザーが既に使用しているメールも禁止
+        if User.objects.filter(email=new_email).exclude(pk=self.user.pk).exists():
+            raise ValidationError("このメールアドレスは既に他のアカウントで使用されています。")
+
         return new_email
+
 

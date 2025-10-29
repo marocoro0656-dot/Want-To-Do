@@ -22,16 +22,18 @@ def regist(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()                         # ユーザー作成
-            messages.success(request, '登録が完了しました。ログインしてください。')
-            return redirect('user:login')       # ← 成功時はログイン画面へ
+            user = form.save()  # ユーザー作成
+            # 🔽 ここで自動ログイン
+            auth_login(request, user)
+            messages.success(request, f'ようこそ、{user.username} さん！')
+            return redirect('todo_app:home')
         else:
-            # 失敗時は fall-through（フォームにエラーが入った状態で再描画）
             messages.error(request, '入力内容に誤りがあります。各項目のエラーを確認してください。')
     else:
         form = SignUpForm()
 
     return render(request, 'user/registration.html', {'user_form': form})
+
 
 def login_view(request):
     if request.method == 'POST':

@@ -3,10 +3,17 @@
 {% block extra_css %}
   <link rel="stylesheet" href="{% static 'todo/home.css' %}">
 {% endblock %}
-{% block body_class %}{% endblock %}
+{% block body_class %}
+<style>
+/* === 新規WantToDo作成ページ限定：スクロール反発を防止 === */
+.no-overscroll {
+  overscroll-behavior: contain;
+}
+</style>
+{% endblock %}
 
 {% block content %}
-
+<div class="no-overscroll">
   <section class="signup-card">
     <h3 style="text-align:center; margin-bottom:16px;">新規WantToDo作成</h3>
 
@@ -41,6 +48,13 @@
       {{ form.memo }}
 
       <button type="submit" class="signup-submit">登録</button>
+
+      <!-- 👇 戻るボタン（グレー） -->
+      <button type="button" class="btn btn-gray" style="margin-top:12px;" onclick="history.back();">
+        戻る
+      </button>
+
     </form>
   </section>
+</div>
 {% endblock %}

@@ -134,7 +134,7 @@
 
 /* ==== 下部ナビ／共通グレーボタン ==== */
 .bottom-button{ text-align:center; margin-top:20px; }
-.add-btn,
+
 .bottom-button .btn{
   border-radius:6px;
   background:#ccc;
@@ -145,7 +145,29 @@
   text-decoration:none;
   display:inline-block;
 }
-.add-btn:hover,
+
+/* ==== 「新たなWantToDoを追加」ボタン：btn-grayと同じサイズで緑化 ==== */
+.add-btn {
+  background-color: #38a24b !important;  /* ✅ 完了ボタンと同じ緑 */
+  color: #fff !important;
+  border: none !important;
+  border-radius: 6px;
+  padding: 10px 20px;        /* ✅ btn-grayと同じサイズ感 */
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.15s, transform 0.02s;
+}
+
+.add-btn:hover {
+  background-color: #2f8b40 !important;  /* ✅ hover時は濃い緑 */
+  color: #fff !important;
+}
+
+.add-btn:active {
+  transform: translateY(1px);
+}
+
 .bottom-button .btn:hover{ background:#b0b0b0; transition:background .2s ease; }
 
 /* 下部ボタンに限ってグレー強制 */
@@ -546,4 +568,36 @@ dialog::backdrop{ background: rgba(0,0,0,.35); }
   margin: 4px 0;
   font-weight: 600;
   text-align: center;
+}
+
+
+/* ==== 削除モーダル専用（#deleteModal内限定） ==== */
+#deleteModal .btn-yes {
+  background: #e74c3c !important;   /* 🔴 赤 */
+  color: #fff !important;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+#deleteModal .btn-yes:hover {
+  background: #c0392b !important;   /* hover時：濃い赤 */
+}
+
+#deleteModal .btn-no {
+  background: #ccc !important;      /* ⚪ グレー */
+  color: #333 !important;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+#deleteModal .btn-no:hover {
+  background: #b0b0b0 !important;   /* hover時：濃いグレー */
 }

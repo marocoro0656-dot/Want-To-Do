@@ -195,9 +195,9 @@
 </div>
 
 <div class="filter-box">
-  <div class="action-buttons">
-    <a href="{% url 'todo_app:add_want' %}" class="btn btn-secondary add-btn">新たなWantToDoを追加</a>
-  </div>
+  <div class="bottom-button">
+  <a href="{% url 'todo_app:add_want' %}" class="btn add-btn">新たなWantToDoを追加</a>
+</div>
 
   <br>
 
@@ -254,5 +254,47 @@
   </div>
 
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // === 1. 絞り込み結果に自動スクロール ===
+  const hasQuery = window.location.search.length > 0;
+  const todoSection = document.querySelector(".todo-preview");
+  if (hasQuery && todoSection) {
+    setTimeout(() => {
+      todoSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 300);
+  }
+
+  // === 2. 条件未指定時にエラー表示 ===
+  const filterForm = document.querySelector(".filter-form");
+  if (!filterForm) return;
+
+  // 既存フォームの一番上にメッセージエリアを追加
+  const errorMsg = document.createElement("p");
+  errorMsg.textContent = "絞り込み条件を選択してください。";
+  errorMsg.style.display = "none";
+  errorMsg.style.color = "#d33";
+  errorMsg.style.fontWeight = "bold";
+  errorMsg.style.textAlign = "center";
+  errorMsg.style.marginBottom = "8px";
+  filterForm.prepend(errorMsg);
+
+  filterForm.addEventListener("submit", function(e) {
+    const category = filterForm.querySelector("[name='category']").value;
+    const difficulty = filterForm.querySelector("[name='difficulty']").value;
+    const startDate = filterForm.querySelector("[name='start_date']").value;
+    const endDate = filterForm.querySelector("[name='end_date']").value;
+
+    if (!category && !difficulty && !startDate && !endDate) {
+      e.preventDefault(); // 送信を止める
+      errorMsg.style.display = "block";
+      errorMsg.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else {
+      errorMsg.style.display = "none";
+    }
+  });
+});
+</script>
 
 {% endblock %}
