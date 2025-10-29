@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 
 # パスワードポリシー: 8-24 / 英字1+ / 数字1+ / 記号(!_%@#$&)1+
 PASSWORD_RE = re.compile(
-    r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[!_%@#$&])[A-Za-z\d!_%@#$&]{8,24}$'
+    r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[!_%@#$&])[A-Za-z\d!_%@#$&]{8,32}$'
 )
 
 def validate_password_policy(pw: str):
@@ -47,7 +47,16 @@ class SignUpForm(UserCreationForm):
     """
     新規登録: ユーザー名 + メール + パスワード（確認あり）
     """
-    email = forms.EmailField(required=True, label='メールアドレス')
+    username = forms.CharField(
+        label='ユーザー名',
+        max_length=32,
+        required=True,
+    )
+    email = forms.EmailField(
+        label='メールアドレス',
+        max_length=128,
+        required=True,
+    )
 
     class Meta:
         model = User
@@ -63,7 +72,7 @@ class SignUpForm(UserCreationForm):
         pw1 = self.cleaned_data.get('password1')
         pw2 = self.cleaned_data.get('password2')
 
-        # UserCreationForm の標準「一致チェック」を自前で行う
+        # 一致チェック
         if pw1 and pw2 and pw1 != pw2:
             raise ValidationError('パスワードが一致しません。')
 
@@ -73,14 +82,39 @@ class SignUpForm(UserCreationForm):
 
         return pw2
 
+#ログイン
 class LoginForm(forms.Form):
     """
     ログイン: メール + パスワード
     """
-    email = forms.EmailField(label='メールアドレス')
-    password = forms.CharField(
-        label='パスワード', widget=forms.PasswordInput
+    email = forms.EmailField(
+        label='メールアドレス',
+        required=True,
+        error_messages={
+            'required': 'メールアドレスを入力してください。',
+            'invalid': '正しいメールアドレスの形式で入力してください。',
+        },
+        widget=forms.EmailInput(attrs={'class': 'signup-input'})
     )
+    password = forms.CharField(
+        label='パスワード',
+        required=True,
+        widget=forms.PasswordInput(attrs={'class': 'signup-input'}),
+        error_messages={
+            'required': 'パスワードを入力してください。',
+        }
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        password = cleaned_data.get('password')
+
+        # 両方未入力などのときに、明確にエラーを出す
+        if not email or not password:
+            raise forms.ValidationError("メールアドレスとパスワードを入力してください。")
+
+        return cleaned_data
 
 #メールアドレス変更
 class EmailChangeForm(forms.Form):

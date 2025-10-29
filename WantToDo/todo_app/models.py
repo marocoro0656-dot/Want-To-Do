@@ -15,7 +15,7 @@ class Want(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wants')
-    title = models.CharField('タイトル', max_length=120)
+    title = models.CharField('タイトル', max_length=64)
     category = models.CharField('カテゴリ', max_length=20, choices=CATEGORY_CHOICES, blank=True)   # フォーム側で必須化
     difficulty = models.CharField('難易度', max_length=10, choices=DIFFICULTY_CHOICES, blank=True) # フォーム側で必須化
     deadline = models.DateField('期限', null=True, blank=True)  # 任意
@@ -31,4 +31,4 @@ class Want(models.Model):
 
     class Meta:
         ordering = ['done', 'deadline', '-updated_at']  # 未完→期限近い順
-        
+

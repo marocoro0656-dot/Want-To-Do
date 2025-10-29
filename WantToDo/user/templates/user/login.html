@@ -5,29 +5,43 @@
   <link rel="stylesheet" href="{% static 'user/regist.css' %}">
 {% endblock %}
 
-
 {% block body_class %}signup-page{% endblock %}
 
 {% block content %}
+<section class="signup-card">
+  <h2 class="signup-title">ログイン</h2>
 
+  <form method="post" class="signup-form" novalidate>
+    {% csrf_token %}
 
-  <section class="signup-card">
-    <h2 class="signup-title">ログイン</h2>
-    <form method="post" class="signup-form" novalidate>
-      {% csrf_token %}
-
-      <label class="signup-label" for="id_email">メールアドレス</label>
-      <input class="signup-input" type="email" id="id_email" name="email" required>
-
-      <label class="signup-label" for="id_password">パスワード</label>
-      <input class="signup-input" type="password" id="id_password" name="password" required>
-
-      <button type="submit" class="signup-submit">ログイン</button>
-
-      <div class="signup-help" style="text-align:center; margin-top:10px;">
-        <a href="{% url 'user:regist' %}">アカウント登録</a>
-
+    {# --- 全体のエラー --- #}
+    {% if login_form.non_field_errors %}
+      <div class="alert alert-danger" style="width: clamp(260px, 46vw, 420px); text-align:center;">
+        {% for err in login_form.non_field_errors %}
+          {{ err }}<br>
+        {% endfor %}
       </div>
-    </form>
-  </section>
+    {% endif %}
+
+    {# --- メールアドレス欄 --- #}
+    <label class="signup-label" for="{{ login_form.email.id_for_label }}">メールアドレス</label>
+    {% for err in login_form.email.errors %}
+      <div class="errorlist">{{ err }}</div>
+    {% endfor %}
+    {{ login_form.email }}
+
+    {# --- パスワード欄 --- #}
+    <label class="signup-label" for="{{ login_form.password.id_for_label }}">パスワード</label>
+    {% for err in login_form.password.errors %}
+      <div class="errorlist">{{ err }}</div>
+    {% endfor %}
+    {{ login_form.password }}
+
+    <button type="submit" class="signup-submit">ログイン</button>
+
+    <div class="signup-help" style="text-align:center; margin-top:10px;">
+      <a href="{% url 'user:regist' %}">アカウント登録</a>
+    </div>
+  </form>
+</section>
 {% endblock %}

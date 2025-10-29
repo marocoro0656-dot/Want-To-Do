@@ -96,3 +96,15 @@ body.signup-page .signup-submit:active{ transform: translateY(1px); }
   body.signup-page .signup-card{ padding:18px; }
   body.signup-page .signup-form{ gap:14px; }
 }
+
+
+/* Djangoフォームのエラーメッセージを赤文字に統一 */
+.errorlist {
+  color: #d33;              /* 🔴 赤文字 */
+  font-weight: 600;
+  margin: 4px 0;
+  text-align: left;
+  font-size: 13px;
+  list-style: none;
+  padding-left: 0;
+}
