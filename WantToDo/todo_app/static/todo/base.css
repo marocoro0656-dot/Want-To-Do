@@ -201,3 +201,9 @@ body.signup-page .signup-submit:active{ transform: translateY(1px); }
   text-decoration: none !important;
 }
 
+
+/* ==== 全ページ共通：Chrome等でのスクロール跳ね防止 ==== */
+html, body {
+  overscroll-behavior-y: none;   /* 縦方向の反発を無効化 */
+  overscroll-behavior-x: none;   /* 横方向の反発を無効化（念のため） */
+}
